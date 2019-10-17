@@ -1,0 +1,1 @@
+This repository contains files for the Lyrics for Learning app. Deploying initial MVP soon!
