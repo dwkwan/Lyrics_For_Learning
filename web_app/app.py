@@ -5,6 +5,8 @@ from flask import render_template
 from models import storage
 from models import BaseModel
 from models import Song
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 
@@ -19,7 +21,7 @@ def display_song(text):
     songs_dict = storage.all(Song)
     result = songs_dict.get("Song.{:}".format(text))
     if result is not None:
-            return render_template('song.html', song=result)
+            return render_template('song.html')
     return "NOT FOUND"
 
 @app.teardown_appcontext
