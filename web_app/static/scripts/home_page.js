@@ -20,7 +20,7 @@ function song_HTML(song) {
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary" id="${song.id}">View</button>
                     </div>
-                    <small class="text-muted">Rock</small>
+                    <small class="text-muted">${song.genre}</small>
                   </div>
                 </div>
               </div>

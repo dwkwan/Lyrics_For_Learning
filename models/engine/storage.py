@@ -2,10 +2,13 @@
 """This module defines the Storage class"""
 from models.base_model import BaseModel, Base
 from models.song import Song
+from models.word import Word
 from sqlalchemy import (create_engine)
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 import os
+
+classes = {"Song": Song, "Word": Word}
 
 class Storage:
     """This class manages the MySQL database for Lyrics for Learning"""
@@ -25,7 +28,7 @@ class Storage:
         """
         obj_dict = {}
         if cls is None:
-            for obj in self.__session.query(Song).all():
+            for obj in self.__session.query(Song, Word).all():
                 key = "{}.{}".format(type(obj).__name__, obj.id)
                 obj_dict[key] = obj
         else:
@@ -67,3 +70,11 @@ class Storage:
         """closes the current session to force reload
         """
         self.__session.close()
+
+    def get(self, cls, id):
+        """get object based on class and id"""
+        objs = self.__session.query(classes[cls]).all()
+        for obj in objs:
+            if obj.__class__.__name__ == cls and obj.id == id:
+                return obj
+        return None
