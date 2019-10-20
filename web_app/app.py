@@ -5,8 +5,6 @@ from flask import render_template
 from models import storage
 from models import BaseModel
 from models import Song
-from dotenv import load_dotenv
-import os
 
 app = Flask(__name__)
 
