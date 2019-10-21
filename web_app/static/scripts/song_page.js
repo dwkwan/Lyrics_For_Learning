@@ -36,8 +36,10 @@ function setupWordFetch(word) {
       .then(response => response.json())
 	.then(data => {
 	  selectedWord = document.getElementById('selectedWord')
-	  selectedWord.innerText = "Selected Word: "+ data['word']
-	  document.getElementById('wordSection').insertAdjacentHTML('beforeend', button_group_HTML())
+	  selectedWord.innerHTML = `<b>Selected Word:</b> ${data['word']}`
+	  entries_label = document.getElementById('entries_label')
+	  entries_label.innerHTML = `<b><u>Entries</u></b></p>`
+	  document.getElementById('wordBreakdown').insertAdjacentHTML('beforeend', button_group_HTML())
 	  document.getElementById('entries_button_group').innerHTML = ""
 	  for (i = 0; i < data['results'].length; i++) {
 	    document.getElementById('entries_button_group').insertAdjacentHTML('beforeend', button_HTML(i))
@@ -60,6 +62,23 @@ function button_HTML(index)
 function setup_entry(data_results, entry_id)
 {
   document.getElementById(entry_id).addEventListener('click', function() {
-    console.log(data_results[entry_id])
+    let tabDict = {}
+    let keys = Object.keys(data_results[entry_id])
+    for(i = 0; i < keys.length; i++) {
+      if (keys[i] == "definition"  || keys[i] == "synonyms" || keys[i] == "antonyms" || keys[i]  == "examples")
+	tabDict[keys[i]] = data_results[entry_id][keys[i]]
+    }
+    console.log(tabDict)
+    document.getElementById("wordTabs").innerHTML = ""
+//    document.getElementById("wordBreakdown").insertAdjacentHTML('beforeend', `<br></br><ul class="nav nav-tabs" // id="wordTabs"></ul>`)
+    append_tabs(tabDict)
   })
+}
+function append_tabs(tabDict) {
+  tabDictKeys  = Object.keys(tabDict)
+  console.log(tabDictKeys.length)
+  for (i = 0; i < tabDictKeys.length; i++) {
+    tab = `<li class="nav-item"> <a class="nav-link active" href="#">${tabDictKeys[i]}</a></li>`
+    document.getElementById("wordTabs").insertAdjacentHTML('beforeend', tab)
+  }
 }
