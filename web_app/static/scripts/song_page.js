@@ -15,7 +15,6 @@ let song_word_api_url = 'http://0.0.0.0:5001/api/v1/songs/' + id + '/words'
 fetch(song_word_api_url)
 .then(response => response.json())
 .then(data => {
-  console.log(data)
   for (i = 0; i < data.length; i++) {
     item = document.createElement("LI");
     text = document.createTextNode(data[i].text)
@@ -30,13 +29,37 @@ function setupWordFetch(word) {
     fetch("https://wordsapiv1.p.rapidapi.com/words/" + word.innerText,
 	  {
 	    headers: {
-	      'x-rapidapi-host': "ENTER API_HOST",
-	      'x-rapidapi-key': "ENTER API_KEY"
+	      'x-rapidapi-host': "ENTER API HOST",
+	      'x-rapidapi-key': "ENTER API KEY"
 	    }
 	  })
       .then(response => response.json())
 	.then(data => {
-	  console.log(data)
-	})
-	.catch(error => console.error(error))
-  })}
+	  selectedWord = document.getElementById('selectedWord')
+	  selectedWord.innerText = "Selected Word: "+ data['word']
+	  document.getElementById('wordSection').insertAdjacentHTML('beforeend', button_group_HTML())
+	  document.getElementById('entries_button_group').innerHTML = ""
+	  for (i = 0; i < data['results'].length; i++) {
+	    document.getElementById('entries_button_group').insertAdjacentHTML('beforeend', button_HTML(i))
+	    setup_entry(data['results'], i)
+	    }
+	  })
+      .catch(error => console.error(error))
+	})}
+function button_group_HTML()
+{
+  return(
+    `<div class="btn-group" role="group" aria-label="Basic example" id="entries_button_group">
+      </div>`
+  )
+}
+function button_HTML(index)
+{
+  return(`<button type="button" class="btn btn-secondary" id=${index}>${index}</button>`)
+}
+function setup_entry(data_results, entry_id)
+{
+  document.getElementById(entry_id).addEventListener('click', function() {
+    console.log(data_results[entry_id])
+  })
+}
