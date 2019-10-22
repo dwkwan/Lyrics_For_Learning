@@ -3,12 +3,13 @@
 from models.base_model import BaseModel, Base
 from models.song import Song
 from models.word import Word
+from models.interpretation import Interpretation
 from sqlalchemy import (create_engine)
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 import os
 
-classes = {"Song": Song, "Word": Word}
+classes = {"Song": Song, "Word": Word, "Interpretation": Interpretation}
 
 class Storage:
     """This class manages the MySQL database for Lyrics for Learning"""
@@ -28,7 +29,7 @@ class Storage:
         """
         obj_dict = {}
         if cls is None:
-            for obj in self.__session.query(Song, Word).all():
+            for obj in self.__session.query(Song, Word, Interpretation).all():
                 key = "{}.{}".format(type(obj).__name__, obj.id)
                 obj_dict[key] = obj
         else:
