@@ -41,6 +41,10 @@ function setupWordFetch(word) {
 	  entries_label.innerHTML = `<b><u>Entries</u></b></p>`
 	  document.getElementById('wordBreakdown').insertAdjacentHTML('beforeend', button_group_HTML())
 	  document.getElementById('entries_button_group').innerHTML = ""
+	  document.getElementById('wordTabs').innerHTML = ""
+	  document.getElementById('myTabContent').innerHTML = ""
+	  document.getElementById('wordTabs').classList.remove('nav', 'nav-tabs')
+	  document.getElementById("wordCard").classList.remove("card")
 	  for (i = 0; i < data['results'].length; i++) {
 	    document.getElementById('entries_button_group').insertAdjacentHTML('beforeend', button_HTML(i))
 	    setup_entry(data['results'], i)
@@ -70,15 +74,31 @@ function setup_entry(data_results, entry_id)
     }
     console.log(tabDict)
     document.getElementById("wordTabs").innerHTML = ""
-//    document.getElementById("wordBreakdown").insertAdjacentHTML('beforeend', `<br></br><ul class="nav nav-tabs" // id="wordTabs"></ul>`)
+    document.getElementById("myTabContent").innerHTML = ""
+    document.getElementById("wordTabs").classList.add('nav', 'nav-tabs')
     append_tabs(tabDict)
+    document.getElementById("wordCard").classList.add("card")
   })
 }
 function append_tabs(tabDict) {
   tabDictKeys  = Object.keys(tabDict)
-  console.log(tabDictKeys.length)
   for (i = 0; i < tabDictKeys.length; i++) {
-    tab = `<li class="nav-item"> <a class="nav-link active" href="#">${tabDictKeys[i]}</a></li>`
+    if (i == 0) {
+      tab = `<li class="nav-item"><a class="nav-link active"` +
+	`id="${tabDictKeys[i]}-tab" data-toggle="tab" href="#${tabDictKeys[i]}"`
+	+ `role="tab" aria-controls="${tabDictKeys[i]}" aria-selected="true">${tabDictKeys[i]}</a></li>`
+      tabContent = `<div class="tab-pane fade show active"` +
+	`id="${tabDictKeys[i]}" role="tabpanel"` +
+	`aria-labelledby="${tabDictKeys[i]}-tab"><p>${tabDict[tabDictKeys[i]]}</p></div>`
+    }
+    else {
+      tab = `<li class="nav-item"><a class="nav-link"` +
+	`id="${tabDictKeys[i]}-tab" data-toggle="tab"` +
+      `href="#${tabDictKeys[i]}" role="tab" aria-controls="${tabDictKeys[i]}" aria-selected="true">${tabDictKeys[i]}</a></li>`
+      tabContent = `<div class="tab-pane fade" id="${tabDictKeys[i]}"` +
+	`role="tabpanel" aria-labelledby="${tabDictKeys[i]}-tab">${tabDict[tabDictKeys[i]]}</div>`
+    }
     document.getElementById("wordTabs").insertAdjacentHTML('beforeend', tab)
+    document.getElementById("myTabContent").insertAdjacentHTML('beforeend', tabContent)
   }
 }
