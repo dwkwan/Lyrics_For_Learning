@@ -22,10 +22,13 @@ class BaseModel():
 
     def __init__(self, *args, **kwargs):
         """Initiliazes an instance of BaseModel"""
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != "__class__":
+                    setattr(self, key, value)
         self.id = str(uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
-        models.storage.new(self)
 
     def __str__(self):
         """Returns string representation of BaseModel instance"""

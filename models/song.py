@@ -23,3 +23,4 @@ class Song(BaseModel, Base):
     lyrics = Column(String(5000), nullable=False)
     genre = Column(String(128), nullable=False)
     words = relationship("Word", secondary=song_word, viewonly=False)
+    interpretations = relationship("Interpretation", backref="song")
