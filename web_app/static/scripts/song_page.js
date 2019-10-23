@@ -29,14 +29,15 @@ function setupWordFetch(word) {
     fetch("https://wordsapiv1.p.rapidapi.com/words/" + word.innerText,
 	  {
 	    headers: {
-	      'x-rapidapi-host': "ENTER API HOST",
-	      'x-rapidapi-key': "ENTER API KEY"
+	      'x-rapidapi-host': "WORDS_API_HOST",
+	      'x-rapidapi-key': "WORDS_API_KEY"
 	    }
 	  })
       .then(response => response.json())
 	.then(data => {
 	  selectedWord = document.getElementById('selectedWord')
-	  selectedWord.innerHTML = `<b>Selected Word:</b> ${data['word']}`
+	  selectedWord.innerHTML = `<b>Selected Word:</b> <i>${data['word']}</i>`
+	  selectedWord.setAttribute("text", data['word'])
 	  entries_label = document.getElementById('entries_label')
 	  entries_label.innerHTML = `<b><u>Entries</u></b></p>`
 	  document.getElementById('wordBreakdown').insertAdjacentHTML('beforeend', button_group_HTML())
@@ -45,9 +46,10 @@ function setupWordFetch(word) {
 	  document.getElementById('myTabContent').innerHTML = ""
 	  document.getElementById('wordTabs').classList.remove('nav', 'nav-tabs')
 	  document.getElementById("wordCard").classList.remove("card")
+	  document.getElementById("interpretation-section").innerHTML = ""
 	  for (i = 0; i < data['results'].length; i++) {
 	    document.getElementById('entries_button_group').insertAdjacentHTML('beforeend', button_HTML(i))
-	    setup_entry(data['results'], i)
+	    setup_entry(data, i)
 	    }
 	  })
       .catch(error => console.error(error))
@@ -63,14 +65,14 @@ function button_HTML(index)
 {
   return(`<button type="button" class="btn btn-secondary" id=${index}>${index}</button>`)
 }
-function setup_entry(data_results, entry_id)
+function setup_entry(data, entry_id)
 {
   document.getElementById(entry_id).addEventListener('click', function() {
     let tabDict = {}
-    let keys = Object.keys(data_results[entry_id])
+    let keys = Object.keys(data['results'][entry_id])
     for(i = 0; i < keys.length; i++) {
       if (keys[i] == "definition"  || keys[i] == "synonyms" || keys[i] == "antonyms" || keys[i]  == "examples")
-	tabDict[keys[i]] = data_results[entry_id][keys[i]]
+	tabDict[keys[i]] = data['results'][entry_id][keys[i]]
     }
     console.log(tabDict)
     document.getElementById("wordTabs").innerHTML = ""
@@ -78,6 +80,10 @@ function setup_entry(data_results, entry_id)
     document.getElementById("wordTabs").classList.add('nav', 'nav-tabs')
     append_tabs(tabDict)
     document.getElementById("wordCard").classList.add("card")
+    if (!document.getElementById("prompt")) {
+      add_interpretation_prompt(data)
+      setup_post()
+    }
   })
 }
 function append_tabs(tabDict) {
@@ -102,3 +108,34 @@ function append_tabs(tabDict) {
     document.getElementById("myTabContent").insertAdjacentHTML('beforeend', tabContent)
   }
 }
+function add_interpretation_prompt(data) {
+  prompt = `<br><label for="interpretation-text-area" id="prompt">After exploring a few entries, share what you think the artist meant by <i>\"${data['word']}\"</i>...</label>`
+  textArea = `<textarea class="form-control" form="interpretation-section" name="interpretation "id="interpretation-text-area" rows="3" ></textarea>`
+  submitButton = `<br><button type="submit" class="btn btn-primary">Submit</button>`
+  document.getElementById("interpretation-section").insertAdjacentHTML('beforeend', prompt)
+  document.getElementById("interpretation-section").insertAdjacentHTML('beforeend', textArea)
+  document.getElementById("interpretation-section").insertAdjacentHTML('beforeend', submitButton)
+}
+function setup_post(word) {
+  form = document.getElementById("interpretation-section")
+  form.addEventListener("submit", postInterpretation)
+}
+function postInterpretation(event) {
+  event.preventDefault()
+  word = document.getElementById("selectedWord").getAttribute("text")
+  word_id_url = "http://0.0.0.0:5001/api/v1/words/" + word
+  fetch(word_id_url)
+    .then(response => response.json())
+    .then(data => {
+      interpretation = document.getElementById("interpretation-text-area").value
+      interpretation_dict = {'text': interpretation}
+      post_interpretation_url = "http://0.0.0.0:5001/api/v1/interpretations/" + data + '/' + id
+      fetch(post_interpretation_url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(interpretation_dict)})
+	.then(response => response.json())
+	.then(data => {
+	  console.log(data)
+	})
+        .catch(error => console.error(error))
+    })
+    .catch(error => console.error(error))
+      }
