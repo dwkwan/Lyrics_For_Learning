@@ -4,7 +4,7 @@ from models.base_model import BaseModel, Base
 from models.song import Song
 from models.word import Word
 from models.interpretation import Interpretation
-from sqlalchemy import (create_engine)
+from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 import os
