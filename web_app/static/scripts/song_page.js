@@ -53,6 +53,7 @@ function setupWordFetch(word) {
 	    element = document.getElementById("confirmationDialog")
 	    element.parentNode.removeChild(element)
 	  }
+	  document.getElementById("displaySection").innerHTML = ""
 	  for (i = 0; i < data['results'].length; i++) {
 	    document.getElementById('entries_button_group').insertAdjacentHTML('beforeend', button_HTML(i))
 	    setup_entry(data, i)
@@ -88,8 +89,9 @@ function setup_entry(data, entry_id)
     document.getElementById("wordCard").classList.add("card")
     if (!document.getElementById("prompt")) {
       add_interpretation_prompt(data)
-      setup_post()
+      setup_post(data)
     }
+    displayInterpretations()
   })
 }
 function append_tabs(tabDict) {
@@ -140,16 +142,53 @@ function postInterpretation(event) {
 	.then(response => response.json())
 	.then(data => {
 	  document.getElementById("interpretation-section").style.display="none";
-	  confirmationDialog = `<p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>! Check back to see if others upvote it below!</p>`
-	  document.getElementById("wordSection").insertAdjacentHTML('beforeend', confirmationDialog)
+	  confirmationNode = document.createElement('div');
+	  nodeContents = `<p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>! Check back to see if others upvote it below!</p>`
+	  document.getElementById("displaySection").before(confirmationNode)
+	  confirmationNode.innerHTML = nodeContents
+//	  document.getElementById("wordSection").insertAdjacentHTML('beforeend', confirmationDialog)
 	  console.log(data)
-	  fetch(interpretation_url)
-	    .then(response => response.json())
-	    .then(data => {
-	      console.log(data)})
-            .catch(error => console.error(error))
 	})
         .catch(error => console.error(error))
     })
     .catch(error => console.error(error))
       }
+function displayInterpretations() {
+  word = document.getElementById("selectedWord").getAttribute("text")
+  word_id_url = "http://0.0.0.0:5001/api/v1/words/" + word
+  fetch(word_id_url)
+    .then(response => response.json())
+    .then(data => {
+      fetch("http://0.0.0.0:5001/api/v1/interpretations/" + data + '/' + id)
+	.then(response => response.json())
+	.then(data => {
+	  displaySection= setupDisplaySection(data)
+	  document.getElementById("displaySection").insertAdjacentHTML("beforeend", displaySection)
+	  contentDiv = document.getElementById("content-div")
+	  if (data.length > 0) {
+	    for (i = 0; i < data.length; i++) {
+	      contentDiv.insertAdjacentHTML("beforeend", `<li>${data[i].text}</li>`)
+	    }
+	  }
+	})
+	.catch(error => console.error(error))})
+}
+function setupDisplaySection(interpretations) {
+  word = document.getElementById("selectedWord").getAttribute("text")
+  return(
+    `<div class="accordion" id="accordionExample">
+      <div class="card">
+      <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+      Interpretations for ${word}
+    </button>
+      </h2>
+      </div>
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" id="content-div">
+      </div>
+    </div>
+  </div>
+  </div>`)
+}
