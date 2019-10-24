@@ -61,16 +61,17 @@ class Storage:
     def reload(self):
         """create all tables in the database and the current database session
         """
+        print("RELOAD")
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
-        Session = scoped_session(session_factory)
-        self.__session = Session()
+        self.__session = scoped_session(session_factory)
 
     def close(self):
         """closes the current session to force reload
         """
-        self.__session.close()
+        print("CLOSE")
+        self.__session.remove()
 
     def get(self, cls, id):
         """get object based on class and id"""
