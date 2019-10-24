@@ -29,8 +29,8 @@ function setupWordFetch(word) {
     fetch("https://wordsapiv1.p.rapidapi.com/words/" + word.innerText,
 	  {
 	    headers: {
-	      'x-rapidapi-host': "WORDS_API_HOST",
-	      'x-rapidapi-key': "WORDS_API_KEY"
+	      'x-rapidapi-host': "ENTER API HOST",
+	      'x-rapidapi-key': "ENTER API KEY"
 	    }
 	  })
       .then(response => response.json())
@@ -47,6 +47,12 @@ function setupWordFetch(word) {
 	  document.getElementById('wordTabs').classList.remove('nav', 'nav-tabs')
 	  document.getElementById("wordCard").classList.remove("card")
 	  document.getElementById("interpretation-section").innerHTML = ""
+	  document.getElementById("interpretation-section").style.display="block";
+	  console.log(document.getElementById("confirmationDialog"))
+	  if (document.getElementById("confirmationDialog") != null) {
+	    element = document.getElementById("confirmationDialog")
+	    element.parentNode.removeChild(element)
+	  }
 	  for (i = 0; i < data['results'].length; i++) {
 	    document.getElementById('entries_button_group').insertAdjacentHTML('beforeend', button_HTML(i))
 	    setup_entry(data, i)
@@ -129,11 +135,19 @@ function postInterpretation(event) {
     .then(data => {
       interpretation = document.getElementById("interpretation-text-area").value
       interpretation_dict = {'text': interpretation}
-      post_interpretation_url = "http://0.0.0.0:5001/api/v1/interpretations/" + data + '/' + id
-      fetch(post_interpretation_url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(interpretation_dict)})
+      interpretation_url = "http://0.0.0.0:5001/api/v1/interpretations/" + data + '/' + id
+      fetch(interpretation_url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(interpretation_dict)})
 	.then(response => response.json())
 	.then(data => {
+	  document.getElementById("interpretation-section").style.display="none";
+	  confirmationDialog = `<p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>! Check back to see if others upvote it below!</p>`
+	  document.getElementById("wordSection").insertAdjacentHTML('beforeend', confirmationDialog)
 	  console.log(data)
+	  fetch(interpretation_url)
+	    .then(response => response.json())
+	    .then(data => {
+	      console.log(data)})
+            .catch(error => console.error(error))
 	})
         .catch(error => console.error(error))
     })
