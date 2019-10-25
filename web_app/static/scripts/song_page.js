@@ -1,3 +1,4 @@
+//Redirects user to page for specific song
 let index = window.location.href.lastIndexOf('/')
 let id = window.location.href.substring(index + 1)
 let song_api_url = 'http://0.0.0.0:5001/api/v1/songs/' + id
@@ -10,7 +11,7 @@ fetch(song_api_url)
 })
 .catch(error => console.error(error))
 
-
+//Fetchs and displays song details
 let song_word_api_url = 'http://0.0.0.0:5001/api/v1/songs/' + id + '/words'
 fetch(song_word_api_url)
 .then(response => response.json())
@@ -24,6 +25,8 @@ fetch(song_word_api_url)
    }
   })
 .catch(error => console.error(error))
+
+//Adds event listeners so that information about each word can be fetched and displayed
 function setupWordFetch(word) {
   word.addEventListener('click', function() {
     fetch("https://wordsapiv1.p.rapidapi.com/words/" + word.innerText,
