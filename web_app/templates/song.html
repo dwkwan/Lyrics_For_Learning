@@ -1,51 +1,101 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!DOCTYPE html>
+<html>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Songs-page</title>
+    <link rel="stylesheet" href="../static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
 
     <!-- Javascript -->
     <SCRIPT src="https://code.jquery.com/jquery-3.2.1.min.js"></SCRIPT>
     <SCRIPT src="../static/scripts/song_page.js"></SCRIPT>
 
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <header>
-    </header>
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <h3 id="song_info"></h3>
-      <p id="lyrics" style="white-space: pre-line"></p>
+</head>
+
+<body style="border-width: 100px;">
+    <div></div>
+    <div></div>
+    <div style="padding-bottom: 10px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body" style="border-color: red;background-image: url(&quot;../static/assets/img/dr_dog_treasure_island_music_festival.jpg&quot;);"><img src="../static/assets/img/nature/image5.jpg" width="200px" height="100px">
+                            <h4 class="card-title" style="padding-top: 20px;" id="song-title"></h4>
+                            <h5 class="text-muted card-subtitle mb-2" style="padding-top: 0px;" id="song-artist"></h5>
+                            <h5 class="text-muted card-subtitle mb-2" style="padding-top: 0px;" id="song-genre"></h5>
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="padding-left: 30px;">
+                    <h4 style="padding-top: 20px;">Lyrics<br></h4>
+                    <p id="song-lyrics" style="white-space: pre-line"></p>
+                </div>
+                <div class="col offset-xl-0" style="margin-top: 20px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Pick a word to learn about!</h5>
+                    </div>
+                            <div class="card-body">
+			      <div class="col">
+                              <ul class="list-group" id="wordlist"></ul>
+                                </div>
+                    </div>
+                              </div>
+		    <br>
+                              <div class="card" id="word-specific" style="display: none">
+                                <div class="card-header">
+                                    <h5 class="mb-0" id="selectedWord"></h5>
+                            </div>
+                                    <div class="card-body" id="word-specific-body">
+                                <p id="entries_label"></p>
+                                <div id="wordBreakdown"></div>
+                                <br></br>
+                                <ul id="wordTabs" role="tablist"></ul>
+                                <div style="width: 18rem;" id="wordCard">
+                                  <div class="card-body">
+                                    <div class="tab-content" id="myTabContent"></div>
+                                  </div>
+                                </div>
+                                <form id="interpretation-section"></form>
+                            </div>
+                                      </div>
+			      <br>
+			      <div id="displaySection"></div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col" id="wordSection">
-      <h3>Pick a Word To Learn About:</h3>
-      <ul id="wordlist"></ul>
-        <p id="selectedWord"></p>
-	<p id="entries_label"></p>
-	<div id="wordBreakdown"></div>
-	<br></br>
-	<ul id="wordTabs" role="tablist"></ul>
-	<div style="width: 18rem;" id="wordCard">
-	  <div class="card-body">
-	<div class="tab-content" id="myTabContent"></div>
-	</div>
-	</div>
-	<form id="interpretation-section"></form>
-	<br>
-	<div id="displaySection"></div>
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" style="padding-bottom: 0px;">
+                        <div class="card-body" id="genre-suggestions">
+                            <h6 class="text-muted card-subtitle mb-2"></h6>
+                            <p class="card-text"></p>
+			</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
- </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+    <div></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+    <script src="../static/assets/js/script.min.js"></script>
+</body>
+
 </html>

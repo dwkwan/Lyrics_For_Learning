@@ -1,4 +1,5 @@
 //Redirects user to page for specific song
+document.addEventListener("DOMContentLoaded", function(event) {
 let index = window.location.href.lastIndexOf('/')
 let id = window.location.href.substring(index + 1)
 let song_api_url = 'http://0.0.0.0:5001/api/v1/songs/' + id
@@ -6,11 +7,35 @@ fetch(song_api_url)
 .then(response => response.json())
 .then(data => {
   console.log(data)
-  document.getElementById('song_info').innerHTML = `${data.artist}, ${data.title}`;
-  document.getElementById('lyrics').innerHTML = `${data.lyrics}`;
-})
-.catch(error => console.error(error))
-
+  document.getElementById('song-title').innerHTML = `${data.title}`;
+  document.getElementById('song-artist').innerHTML = `${data.artist}`;
+  document.getElementById('song-lyrics').innerHTML = `${data.lyrics}`;
+  document.getElementById('song-genre').innerHTML = `Genre: ${data.genre}`;
+  document.getElementById('song-genre').setAttribute("text", data.genre)
+  genre = document.getElementById('song-genre').getAttribute("text")
+  let genre_api_url = 'http://0.0.0.0:5001/api/v1/songs/genre/' + genre
+  console.log(genre_api_url)
+  fetch(genre_api_url)
+    .then(response => response.json())
+    .then(data => {
+      if (data.length > 1) {
+      document.getElementById('genre-suggestions').insertAdjacentHTML("beforeEnd", `<p>Other ${data[0].genre} songs to explore:</p><ul id="suggestion-list"></ul><a class="card-link" href="#"></a>`)
+      suggestionList = suggestions(data)
+      for (i = 0; i < suggestionList.length; i++)
+      {
+	item = document.createElement("LI");
+	text = document.createTextNode(suggestionList[i])
+	item.appendChild(text)
+	document.getElementById('suggestion-list').appendChild(item);
+      }
+      }
+      else {
+	document.getElementById('genre-suggestions').insertAdjacentHTML("beforeEnd", `<p>Check back for more ${data[0].genre} songs!</p><a class="card-link" href="#"></a>`)
+      }
+    })
+    .catch(error => console.error(error))
+      })
+    .catch(error => console.error(error))
 //Fetchs and displays song details
 let song_word_api_url = 'http://0.0.0.0:5001/api/v1/songs/' + id + '/words'
 fetch(song_word_api_url)
@@ -39,8 +64,9 @@ function setupWordFetch(word) {
       .then(response => response.json())
 	.then(data => {
 	  selectedWord = document.getElementById('selectedWord')
-	  selectedWord.innerHTML = `<b>Selected Word:</b> <i>${data['word']}</i>`
+	  selectedWord.innerHTML = `<b>Selected word:</b> <i>${data['word']}</i>`
 	  selectedWord.setAttribute("text", data['word'])
+	  document.getElementById("word-specific").style.display="block";
 	  entries_label = document.getElementById('entries_label')
 	  entries_label.innerHTML = `<b><u>Entries</u></b></p>`
 	  document.getElementById('wordBreakdown').insertAdjacentHTML('beforeend', button_group_HTML())
@@ -94,7 +120,8 @@ function setup_entry(data, entry_id)
       add_interpretation_prompt(data)
       setup_post(data)
     }
-    displayInterpretations()
+    if (document.getElementById("displaySection").innerHTML == "")
+	displayInterpretations()
   })
 }
 function append_tabs(tabDict) {
@@ -145,11 +172,8 @@ function postInterpretation(event) {
 	.then(response => response.json())
 	.then(data => {
 	  document.getElementById("interpretation-section").style.display="none";
-	  confirmationNode = document.createElement('div');
-	  nodeContents = `<p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>! Check back to see if others upvote it below!</p>`
-	  document.getElementById("displaySection").before(confirmationNode)
-	  confirmationNode.innerHTML = nodeContents
-//	  document.getElementById("wordSection").insertAdjacentHTML('beforeend', confirmationDialog)
+	  confirmationDialog = `<br><p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>! Check back to see if others upvote it below!</p>`
+	  document.getElementById("word-specific-body").insertAdjacentHTML('beforeend', confirmationDialog)
 	  console.log(data)
 	})
         .catch(error => console.error(error))
@@ -170,28 +194,37 @@ function displayInterpretations() {
 	  contentDiv = document.getElementById("content-div")
 	  if (data.length > 0) {
 	    for (i = 0; i < data.length; i++) {
-	      contentDiv.insertAdjacentHTML("beforeend", `<li>${data[i].text}</li>`)
+	      contentDiv.insertAdjacentHTML("beforeend", `<p class="card-text">"<i>${data[i].text}</i>"</p>`)
 	    }
 	  }
+	  else
+	  {
+	    contentDiv.insertAdjacentHTML("beforeend", `<p class="card-text">Be the first to share what you think the artist means by <i>${word}</i></p>`)
+	  }})
 	})
-	.catch(error => console.error(error))})
-}
+	.catch(error => console.error(error))}
 function setupDisplaySection(interpretations) {
   word = document.getElementById("selectedWord").getAttribute("text")
   return(
-    `<div class="accordion" id="accordionExample">
-      <div class="card">
-      <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-      Interpretations for ${word}
-    </button>
-      </h2>
-      </div>
-      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-      <div class="card-body" id="content-div">
-      </div>
+`<div role="tablist" id="accordion-1">
+    <div class="card">
+        <div class="card-header" role="tab">
+            <h5 class="mb-0"><a data-toggle="collapse" aria-expanded="false" aria-controls="accordion-1 .item-1" href="#accordion-1 .item-1">Latest Intepretations for <i>${word}</i></a></h5>
+        </div>
+        <div class="collapse item-1" role="tabpanel" data-parent="#accordion-1">
+            <div class="card-body" id="content-div">
+            </div>
+        </div>
     </div>
-  </div>
-  </div>`)
+</div>`)
+}})
+function suggestions(data) {
+  if (data.length > 0) {
+    suggestionList = []
+    for (i = 0; i < data.length; i++) {
+      if (data[i].title != document.getElementById('song-title').innerHTML)
+      suggestionList.push(data[i].title)
+    }
+    return(suggestionList)
+  }
 }

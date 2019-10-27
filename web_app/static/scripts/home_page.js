@@ -11,20 +11,18 @@ fetch('http://0.0.0.0:5001/api/v1/songs')
 .catch(error => console.error(error))
 function song_HTML(song) {
   return(
-    `<div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">${song.title}</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" id="${song.id}">View</button>
-                    </div>
-                    <small class="text-muted">${song.genre}</small>
-                  </div>
-                </div>
-              </div>
-            </div>`
+      `<div class="col-md-6 col-lg-4">
+      <div class="card border-0"><a href="#"><img class="card-img-top scale-on-hover" src="../static/assets/img/nature/image6.jpg" alt="C\
+ard Image"></a>
+      <div class="card-body">
+      <h6><a href="#">${song.title}</a></h6>
+      <p class="text-muted card-text">${song.artist}</p>
+      <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-outline-secondary" id="${song.id}">View</button>
+      </div>
+      </div>
+      </div>
+      </div>`
 )}
 function setup_nav(song) {
   document.getElementById(song.id).addEventListener('click', function() {
