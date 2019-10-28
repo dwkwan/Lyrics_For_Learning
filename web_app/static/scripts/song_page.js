@@ -11,7 +11,8 @@ fetch(song_api_url)
   document.getElementById('song-artist').innerHTML = `${data.artist}`;
   document.getElementById('song-lyrics').innerHTML = `${data.lyrics}`;
   document.getElementById('song-genre').innerHTML = `Genre: ${data.genre}`;
-  document.getElementById('song-genre').setAttribute("text", data.genre)
+  document.getElementById('song-genre').setAttribute("text", data.genre);
+  document.getElementById('song-image').setAttribute("src", data.image_url);
   genre = document.getElementById('song-genre').getAttribute("text")
   let genre_api_url = 'http://0.0.0.0:5001/api/v1/songs/genre/' + genre
   console.log(genre_api_url)
@@ -20,13 +21,16 @@ fetch(song_api_url)
     .then(data => {
       if (data.length > 1) {
       document.getElementById('genre-suggestions').insertAdjacentHTML("beforeEnd", `<p>Other ${data[0].genre} songs to explore:</p><ul id="suggestion-list"></ul><a class="card-link" href="#"></a>`)
-      suggestionList = suggestions(data)
-      for (i = 0; i < suggestionList.length; i++)
+      suggestionDict = suggestions(data)
+      for (const [ key, value ] of Object.entries(suggestionDict))
       {
+	console.log(value)
 	item = document.createElement("LI");
-	text = document.createTextNode(suggestionList[i])
+	text = document.createTextNode(value)
 	item.appendChild(text)
+	item.setAttribute("id", key)
 	document.getElementById('suggestion-list').appendChild(item);
+	suggestionNav(key)
       }
       }
       else {
@@ -220,11 +224,15 @@ function setupDisplaySection(interpretations) {
 }})
 function suggestions(data) {
   if (data.length > 0) {
-    suggestionList = []
+    suggestionDict = {}
     for (i = 0; i < data.length; i++) {
       if (data[i].title != document.getElementById('song-title').innerHTML)
-      suggestionList.push(data[i].title)
+      suggestionDict[data[i].id] = data[i].title
     }
-    return(suggestionList)
+    return(suggestionDict)
   }
 }
+function suggestionNav(id) {
+   document.getElementById(id).addEventListener('click', function() {
+     window.location.href="http://0.0.0.0:5000/songs/" + id
+})}
