@@ -24,3 +24,4 @@ class Song(BaseModel, Base):
     genre = Column(String(128), nullable=False)
     words = relationship("Word", secondary=song_word, viewonly=False)
     interpretations = relationship("Interpretation", backref="song")
+    image_url = Column(String(800), nullable=False)
