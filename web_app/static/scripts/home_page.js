@@ -12,8 +12,8 @@ fetch('http://0.0.0.0:5001/api/v1/songs')
 function song_HTML(song) {
   return(
       `<div class="col-md-6 col-lg-4">
-      <div class="card border-0"><a href="#"><img class="card-img-top scale-on-hover" src="../static/assets/img/nature/image6.jpg" alt="C\
-ard Image"></a>
+      <div class="card border-0"><img class="card-img-top" src="${song.image_url}" alt="C\
+ard Image">
       <div class="card-body">
       <h6><a href="#">${song.title}</a></h6>
       <p class="text-muted card-text">${song.artist}</p>
