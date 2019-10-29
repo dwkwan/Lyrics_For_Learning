@@ -17,14 +17,10 @@ def get_interpretations(word_id=None, song_id=None):
     all of them"""
     word = storage.get('Word', word_id)
     if word is None:
-        print("WORD NOT FOUND")
         abort(404)
-    print("WORD FOUND")
     song = storage.get('Song', song_id)
     if song is None:
-        print("SONG NOT FOUND")
         abort(404)
-    print("SONG FOUND")
     interpretations_dict = storage.all(Interpretation)
     interpretations_list = []
     for interpretation in interpretations_dict.values():

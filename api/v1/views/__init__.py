@@ -7,3 +7,4 @@ from api.v1.views.songs import *
 from api.v1.views.song_word import *
 from api.v1.views.interpretations import *
 from api.v1.views.words import *
+from api.v1.views.suggestions import *
