@@ -10,6 +10,8 @@ fetch(song_api_url)
   document.getElementById('song-title').innerHTML = `${data.title}`;
   document.getElementById('song-artist').innerHTML = `${data.artist}`;
   document.getElementById('song-lyrics').innerHTML = `${data.lyrics}`;
+  console.log(document.getElementById('song-lyrics').innerHTML)
+  console.log(typeof(document.getElementById('song-lyrics').innerHTML))
   document.getElementById('song-genre').innerHTML = `Genre: ${data.genre}`;
   document.getElementById('song-genre').setAttribute("text", data.genre);
   document.getElementById('song-image').setAttribute("src", data.image_url);
@@ -52,6 +54,21 @@ fetch(song_word_api_url)
     document.getElementById('wordlist').appendChild(item);
     setupWordFetch(item)
    }
+  featured_words = document.getElementById('wordlist').querySelectorAll("li");
+  mod_featured_words = []
+  for (i = 0; i < featured_words.length; i++)
+    mod_featured_words.push(featured_words[i].innerText)
+  console.log(mod_featured_words)
+  lyrics = document.getElementById("song-lyrics").innerHTML
+  words = lyrics.split(" ")
+  for (i = 0; i < words.length; i++) {
+    if (mod_featured_words.includes(words[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")))
+    {
+      words[i] = `<span class = ${words[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")}>` + words[i] + `</span>`
+    }
+  }
+  document.getElementById("song-lyrics").innerHTML = words.join(" ")
+  console.log(document.getElementById("song-lyrics").innerHTML)
   })
 .catch(error => console.error(error))
 
@@ -87,6 +104,17 @@ function setupWordFetch(word) {
 	    element.parentNode.removeChild(element)
 	  }
 	  document.getElementById("displaySection").innerHTML = ""
+	  highlightedWords = document.getElementsByClassName("highlighted")
+	  console.log(highlightedWords)
+	  for (i = 0; i < highlightedWords.length; i++) {
+	    highlightedWords[i].removeAttribute("style")
+	    highlightedWords[i].classList.remove("highlighted")
+	  }
+	  wordsToHighlight = document.getElementsByClassName(`${data['word']}`)
+	  for (i = 0; i < wordsToHighlight.length; i++) {
+	    wordsToHighlight[i].setAttribute("style", "background-color: #FFFF00")
+	    wordsToHighlight[i].className += " highlighted";
+	  }
 	  for (i = 0; i < data['results'].length; i++) {
 	    document.getElementById('entries_button_group').insertAdjacentHTML('beforeend', button_HTML(i))
 	    setup_entry(data, i)
@@ -111,8 +139,11 @@ function setup_entry(data, entry_id)
     let tabDict = {}
     let keys = Object.keys(data['results'][entry_id])
     for(i = 0; i < keys.length; i++) {
-      if (keys[i] == "definition"  || keys[i] == "synonyms" || keys[i] == "antonyms" || keys[i]  == "examples")
-	tabDict[keys[i]] = data['results'][entry_id][keys[i]]
+      if (keys[i] == "definition"  || keys[i] == "partOfSpeech"
+	  || keys[i] == "synonyms" || keys[i] == "antonyms"
+	  || keys[i]  == "examples")
+	if (data['results'][entry_id][keys[i]] != null)
+	  tabDict[keys[i]] = data['results'][entry_id][keys[i]]
     }
     console.log(tabDict)
     document.getElementById("wordTabs").innerHTML = ""
