@@ -22,6 +22,11 @@ def display_song(text):
             return render_template('song.html')
     return "NOT FOUND"
 
+@app.route('/suggest', strict_slashes=False)
+def display_suggest():
+    """handles request for Suggest a Song page"""
+    return render_template('suggest.html')
+
 @app.teardown_appcontext
 def teardown_db(self):
     """removes the current SQLAlchemy Session"""

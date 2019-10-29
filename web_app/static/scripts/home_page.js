@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", function(event) {
 fetch('http://0.0.0.0:5001/api/v1/songs')
 .then(response => response.json())
 .then(data => {
@@ -9,6 +10,9 @@ fetch('http://0.0.0.0:5001/api/v1/songs')
   }
 })
 .catch(error => console.error(error))
+document.getElementById("suggest").addEventListener('click', function() {
+    window.location.href="http://0.0.0.0:5000/suggest/"
+  })
 function song_HTML(song) {
   return(
       `<div class="col-md-6 col-lg-4">
@@ -30,3 +34,4 @@ function setup_nav(song) {
   }
 )
 }
+})
