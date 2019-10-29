@@ -6,18 +6,14 @@ let song_api_url = 'http://0.0.0.0:5001/api/v1/songs/' + id
 fetch(song_api_url)
 .then(response => response.json())
 .then(data => {
-  console.log(data)
   document.getElementById('song-title').innerHTML = `${data.title}`;
   document.getElementById('song-artist').innerHTML = `${data.artist}`;
   document.getElementById('song-lyrics').innerHTML = `${data.lyrics}`;
-  console.log(document.getElementById('song-lyrics').innerHTML)
-  console.log(typeof(document.getElementById('song-lyrics').innerHTML))
   document.getElementById('song-genre').innerHTML = `Genre: ${data.genre}`;
   document.getElementById('song-genre').setAttribute("text", data.genre);
   document.getElementById('song-image').setAttribute("src", data.image_url);
   genre = document.getElementById('song-genre').getAttribute("text")
   let genre_api_url = 'http://0.0.0.0:5001/api/v1/songs/genre/' + genre
-  console.log(genre_api_url)
   fetch(genre_api_url)
     .then(response => response.json())
     .then(data => {
@@ -26,7 +22,6 @@ fetch(song_api_url)
       suggestionDict = suggestions(data)
       for (const [ key, value ] of Object.entries(suggestionDict))
       {
-	console.log(value)
 	item = document.createElement("LI");
 	text = document.createTextNode(value)
 	item.appendChild(text)
@@ -58,7 +53,6 @@ fetch(song_word_api_url)
   mod_featured_words = []
   for (i = 0; i < featured_words.length; i++)
     mod_featured_words.push(featured_words[i].innerText)
-  console.log(mod_featured_words)
   lyrics = document.getElementById("song-lyrics").innerHTML
   words = lyrics.split(" ")
   for (i = 0; i < words.length; i++) {
@@ -68,7 +62,6 @@ fetch(song_word_api_url)
     }
   }
   document.getElementById("song-lyrics").innerHTML = words.join(" ")
-  console.log(document.getElementById("song-lyrics").innerHTML)
   })
 .catch(error => console.error(error))
 
@@ -79,7 +72,7 @@ function setupWordFetch(word) {
 	  {
 	    headers: {
 	      'x-rapidapi-host': "ENTER API HOST",
-	      'x-rapidapi-key': "ENTER API KEY"
+	      'x-rapidapi-key': "ETNER API KEY"
 	    }
 	  })
       .then(response => response.json())
@@ -98,18 +91,17 @@ function setupWordFetch(word) {
 	  document.getElementById("wordCard").classList.remove("card")
 	  document.getElementById("interpretation-section").innerHTML = ""
 	  document.getElementById("interpretation-section").style.display="block";
-	  console.log(document.getElementById("confirmationDialog"))
 	  if (document.getElementById("confirmationDialog") != null) {
 	    element = document.getElementById("confirmationDialog")
 	    element.parentNode.removeChild(element)
 	  }
 	  document.getElementById("displaySection").innerHTML = ""
 	  highlightedWords = document.getElementsByClassName("highlighted")
-	  console.log(highlightedWords)
-	  for (i = 0; i < highlightedWords.length; i++) {
-	    highlightedWords[i].removeAttribute("style")
-	    highlightedWords[i].classList.remove("highlighted")
-	  }
+	  while (highlightedWords.length > 0) {
+	    highlightedWords[0].removeAttribute("style");
+	    highlightedWords[0].classList.remove("highlighted");
+	   }
+
 	  wordsToHighlight = document.getElementsByClassName(`${data['word']}`)
 	  for (i = 0; i < wordsToHighlight.length; i++) {
 	    wordsToHighlight[i].setAttribute("style", "background-color: #FFFF00")
@@ -145,7 +137,6 @@ function setup_entry(data, entry_id)
 	if (data['results'][entry_id][keys[i]] != null)
 	  tabDict[keys[i]] = data['results'][entry_id][keys[i]]
     }
-    console.log(tabDict)
     document.getElementById("wordTabs").innerHTML = ""
     document.getElementById("myTabContent").innerHTML = ""
     document.getElementById("wordTabs").classList.add('nav', 'nav-tabs')
@@ -209,7 +200,6 @@ function postInterpretation(event) {
 	  document.getElementById("interpretation-section").style.display="none";
 	  confirmationDialog = `<br><p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>! Check back to see if others upvote it below!</p>`
 	  document.getElementById("word-specific-body").insertAdjacentHTML('beforeend', confirmationDialog)
-	  console.log(data)
 	})
         .catch(error => console.error(error))
     })
