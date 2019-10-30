@@ -16,7 +16,7 @@ document.getElementById("suggest").addEventListener('click', function() {
 function song_HTML(song) {
   return(
       `<div class="col-md-6 col-lg-4">
-      <div class="card border-0"><img class="border rounded-circle card-img-top" src="${song.image_url}" alt="C\
+      <div class="card border-0"><img style="height: 300px" class="border rounded-circle card-img-top" src="${song.image_url}" alt="C\
 ard Image">
       <div class="card-body">
       <h6><a href="#" style="font-family: 'Open Sans', sans-serif;">${song.title}</a></h6>
