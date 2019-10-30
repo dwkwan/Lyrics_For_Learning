@@ -19,10 +19,10 @@ function song_HTML(song) {
       <div class="card border-0"><img class="card-img-top" src="${song.image_url}" alt="C\
 ard Image">
       <div class="card-body">
-      <h6><a href="#">${song.title}</a></h6>
-      <p class="text-muted card-text">${song.artist}</p>
+      <h6><a href="#" style="font-family: 'Open Sans', sans-serif;">${song.title}</a></h6>
+      <p class="text-muted card-text" style="font-family: 'Open Sans', sans-serif;">${song.artist}</p>
       <div class="btn-group">
-      <button type="button" class="btn btn-sm btn-outline-secondary" id="${song.id}">View</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary" id="${song.id}" style="font-family: 'Open Sans', sans-serif;">View</button>
       </div>
       </div>
       </div>

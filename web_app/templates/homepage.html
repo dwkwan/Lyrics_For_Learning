@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/assets/css/styles.min.css">
        <!-- Javascript -->
     <SCRIPT src="https://code.jquery.com/jquery-3.2.1.min.js"></SCRIPT>
     <SCRIPT src="../static/scripts/home_page.js"></SCRIPT>
@@ -18,12 +20,13 @@
 
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient" style="padding-bottom: 30px;">
-        <div class="container"><a class="navbar-brand logo" href="#">Lyrics For Learning</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand logo" href="#" style="font-family: 'Open Sans', sans-serif;">Lyrics For Learning</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
                 id="navbarNav">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link" id="suggest">Suggest a Song</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="https://github.com/dwkwan/Lyrics_For_Learning">Learn More</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" id="suggest" style="font-size: 20px;font-family: 'Open Sans', sans-serif;">Suggest a Song</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" style="font-size: 20px;font-family: 'Open\
+ Sans', sans-serif;" href="https://github.com/dwkwan/Lyrics_For_Learning">Learn More</a></li>
                 </ul>
             </div>
         </div>
@@ -31,11 +34,11 @@
     <main class="page projects-page">
         <section class="portfolio-block projects-cards" style="padding-bottom: 0px;padding-top: 0px;">
             <div class="jumbotron" style="background-color: #bfc6d1;background-image: url(&quot;../static/assets/img/mic-1132528_1280.jpg&quot;);height: 400px;">
-                <h1 class="text-center" style="padding-bottom: 5PX;color: #ced8d1;font-size: 60px;padding-top: -10px;">Lyrics For Learning</h1>
+                <h1 class="text-center" style="padding-bottom: 5PX;color: #ced8d1;font-size: 60px;padding-top: -10px; font-family: 'Open Sans', sans-serif;">Lyrics For Learning</h1>
                 <p></p>
-                <p class="text-center" style="font-size: 28px;padding-top: 0px;color: #e0ddbc;">Explore words from popular songs and share your interpretations!</p>
+                <p class="text-center" style="font-size: 28px;padding-top: 0px;color: #e0ddbc; font-family: 'Open Sans', sans-serif;">Explore words from popular songs and share your interpretations!</p>
             </div>
-            <p class="text-center" style="font-size: 28px;padding-top: 10px;color: #26686d;">Pick a song and start learning from the lyrics!</p>
+            <p class="text-center" style="font-size: 28px;padding-top: 10px;color: #26686d; font-family: 'Open Sans', sans-serif;">Pick a song and start learning from the lyrics!</p>
             <div class="container">
                 <div class="heading"></div>
                 <div class="row" id="songs">
@@ -43,10 +46,60 @@
             </div>
         </section>
     </main>
-    <footer class="page-footer">
+    <hr>
+    <div class="features-boxed">
         <div class="container">
-            <div class="links"><a href="#">This application was made by David Kwan!</a></div>
-            <div class="social-icons"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-instagram-outline"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a></div>
+            <div class="intro">
+                <h2 class="text-center" style="margin-bottom: 20PX; font-family: 'Open Sans', sans-serif;">Features</h2>
+            </div>
+            <div class="row justify-content-center features">
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <figure class="figure"><img class="img-fluid figure-img" src="../static/assets/img/Lyrics.png" style="height: 230.776px;">
+                        <figcaption class="figure-caption" style="font-family: 'Open Sans', sans-serif;">Choose a song above that you love. All songs are vocabulary-rich and "clean"!</figcaption>
+                    </figure>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <figure class="figure"><img class="img-fluid figure-img" src="../static/assets/img/words.png" style="height: 230.776px;">
+                        <figcaption class="figure-caption" style="font-family: 'Open Sans', sans-serif;">Select a word from the song and explore multiple definitions, examples and more!</figcaption>
+                    </figure>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <figure class="figure"><img class="img-fluid figure-img" style="font-family: 'Open Sans', sans-serif;"src="../static/assets/img/interpretation.png" style="height: 230.776px;">
+                        <figcaption class="figure-caption" style="font-family: 'Open Sans', sans-serif;">After exploring a word, share what you think the artist means by it and check out what others have said!</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="team-clean">
+        <div class="container" style="max-width: 2000px;">
+            <div class="intro">
+                <h2 class="text-center" style="font-family: 'Open Sans', sans-serif;">About</h2>
+                <p class="text-center"></p>
+            </div>
+            <div class="row justify-content-center people">
+                <div class="col-md-6 col-lg-4 item"><img class="rounded-circle" src="../static/assets/img/profile.png">
+                    <p class="title"></p>
+                    <p class="description" style="font-family: 'Open Sans', sans-serif;">My name is David Kwan and I am the creator of Lyrics For Learning! I am a former special educator turned software engineer. As a teacher, I found that music was such a powerful way to help my students learn since they all had a natural
+                        connection to it. &nbsp;I wanted to expand upon my experiences and create this educational app to help others practice their English language skills!</p>
+                    <div class="social"><a href="https://github.com/dwkwan/"><i class="fa fa-github"></i></a><a href="https://twitter.com/davidwkwan/"><i class="fa fa-twitter"></i></a><a href="https://www.linkedin.com/in/david-kwan-1b0930129/"><i class="fa fa-linkedin-square"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="features-boxed">
+        <div class="container">
+            <div class="intro">
+                <figure class="figure"></figure>
+            </div>
+        </div>
+    </div>
+    <div></div>
+    <div></div>
+    <footer class="page-footer">
+      <div class="container">
+            <div class="links"><a style="color: #1485ee; font-family: 'Open Sans', sans-serif;" href="https://github.com/dwkwan/Lyrics_For_Learning">Lyrics For Learning on GitHub</a></div>
+            <div class="social-icons"></div>
         </div>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
