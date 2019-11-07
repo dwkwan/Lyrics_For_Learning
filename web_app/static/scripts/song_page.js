@@ -67,16 +67,12 @@ fetch(song_word_api_url)
 
 //Adds event listeners so that information about each word can be fetched and displayed
 function setupWordFetch(word) {
+  let words_api_url = 'http://0.0.0.0:5001/api/v1/words_api/' + word.innerText
   word.addEventListener('click', function() {
-    fetch("https://wordsapiv1.p.rapidapi.com/words/" + word.innerText,
-	  {
-	    headers: {
-	      'x-rapidapi-host': "ENTER API HOST",
-	      'x-rapidapi-key': "ETNER API KEY"
-	    }
-	  })
+    fetch(words_api_url)
       .then(response => response.json())
 	.then(data => {
+	  console.log(data)
 	  selectedWord = document.getElementById('selectedWord')
 	  selectedWord.innerHTML = `<b>Selected word:</b> <i>${data['word']}</i>`
 	  selectedWord.setAttribute("text", data['word'])
@@ -173,7 +169,7 @@ function append_tabs(tabDict) {
   }
 }
 function add_interpretation_prompt(data) {
-  prompt = `<br><label for="interpretation-text-area" id="prompt">After exploring a few entries, share what you think the artist meant by <i>\"${data['word']}\"</i>...</label>`
+  prompt = `<br><label for="interpretation-text-area" id="prompt">After exploring a few entries, share what you think the artist means by <i>\"${data['word']}\"</i>...</label>`
   textArea = `<textarea class="form-control" form="interpretation-section" name="interpretation "id="interpretation-text-area" rows="3" ></textarea>`
   submitButton = `<br><button type="submit" class="btn btn-primary">Submit</button>`
   document.getElementById("interpretation-section").insertAdjacentHTML('beforeend', prompt)
@@ -191,6 +187,7 @@ function postInterpretation(event) {
   fetch(word_id_url)
     .then(response => response.json())
     .then(data => {
+      console.log(data)
       interpretation = document.getElementById("interpretation-text-area").value
       interpretation_dict = {'text': interpretation}
       interpretation_url = "http://0.0.0.0:5001/api/v1/interpretations/" + data + '/' + id
