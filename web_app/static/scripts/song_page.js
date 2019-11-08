@@ -195,7 +195,12 @@ function postInterpretation(event) {
 	.then(response => response.json())
 	.then(data => {
 	  document.getElementById("interpretation-section").style.display="none";
-	  confirmationDialog = `<br><p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>! Check back to see if others upvote it below!</p>`
+	  if ("error" in data && data["error"] == "Profane") {
+	    confirmationDialog = `<br><p id = "confirmationDialog">Your submission for <i>${word}</i> contains profane content. It will not be posted.</p>`
+	  }
+	  else {
+	    confirmationDialog = `<br><p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>!</p>`
+	  }
 	  document.getElementById("word-specific-body").insertAdjacentHTML('beforeend', confirmationDialog)
 	})
         .catch(error => console.error(error))

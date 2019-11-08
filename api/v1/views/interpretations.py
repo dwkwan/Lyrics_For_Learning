@@ -8,6 +8,7 @@ from api.v1.views import app_views
 from models.song import Song
 from models.word import Word
 from models.interpretation import Interpretation
+from better_profanity import profanity
 app = Flask(__name__)
 
 
@@ -45,6 +46,8 @@ def post_interpretation(word_id=None, song_id=None):
         return jsonify({"error": "Not a JSON"}), 400
     if 'text' not in result:
         return jsonify({"error": "Missing text"}), 400
+    if profanity.contains_profanity(result["text"]) == True:
+        return jsonify({"error": "Profane"}), 400
     interpretation_obj = Interpretation(word_id = word_id, song_id=song_id)
     setattr(interpretation_obj, "text", result["text"])
     storage.new(interpretation_obj)
