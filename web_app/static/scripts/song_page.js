@@ -119,7 +119,7 @@ function setupWordFetch(word) {
 function button_group_HTML()
 {
   return(
-    `<div class="btn-group" role="group" aria-label="Basic example" id="entries_button_group">
+    `<div class="btn-group flex-wrap" role="group" aria-label="Basic example" id="entries_button_group">
       </div>`
   )
 }
