@@ -17,5 +17,6 @@ def get_word_api_data(text):
             }
     r = requests.get('https://wordsapiv1.p.rapidapi.com/words/{:}'.format(
         text), headers=headers, allow_redirects=False).json()
+    r['word'] = text
     return(jsonify(r))
     abort(404)
