@@ -54,11 +54,17 @@ fetch(song_word_api_url)
   for (i = 0; i < featured_words.length; i++)
     mod_featured_words.push(featured_words[i].innerText)
   lyrics = document.getElementById("song-lyrics").innerHTML
-  words = lyrics.split(" ")
+  console.log(lyrics)
+  mod_lyrics = lyrics.replace(/\n/g, "+\n")
+  console.log("Modified: " + mod_lyrics)
+  words = mod_lyrics.split(/\+| /)
+  console.log(words)
   for (i = 0; i < words.length; i++) {
-    if (mod_featured_words.includes(words[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")))
+    console.log(words[i])
+    if (mod_featured_words.includes(words[i].replace(/[\".,\/#!$%\^&\*;:{}=\-_`~()\n]/g,"")))
     {
-      words[i] = `<span class = ${words[i].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")}>` + words[i] + `</span>`
+      console.log("Found: " + words[i])
+      words[i] = `<span class = ${words[i].replace(/[\".,\/#!$%\^&\*;:{}=\-_`~()]/g,"")}>` + words[i] + `</span>`
     }
   }
   document.getElementById("song-lyrics").innerHTML = words.join(" ")
@@ -97,7 +103,7 @@ function setupWordFetch(word) {
 	    highlightedWords[0].removeAttribute("style");
 	    highlightedWords[0].classList.remove("highlighted");
 	   }
-
+	  console.log("Word to highlight: " + data['word'])
 	  wordsToHighlight = document.getElementsByClassName(`${data['word']}`)
 	  for (i = 0; i < wordsToHighlight.length; i++) {
 	    wordsToHighlight[i].setAttribute("style", "background-color: #FFFF00")
