@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app_views.route('/suggestions/', methods=['GET'], strict_slashes=False)
 def get_suggestions(word_id=None, song_id=None):
-    """Retrieves all Interpretation objects for a word from a song and returns a list containing
+    """Retrieves all Suggestion objects from database and returns a list containing
     all of them"""
     suggestions_dict = storage.all(Suggestion)
     suggestions_list = []
@@ -21,7 +21,7 @@ def get_suggestions(word_id=None, song_id=None):
 
 @app_views.route('/suggestions/', methods=['POST'], strict_slashes=False)
 def post_suggestion():
-    """Creates an interpretation for a word from a song"""
+    """Creates a Suggestion object"""
     result = request.get_json()
     if result is None:
         return jsonify({"error": "Not a JSON"}), 400

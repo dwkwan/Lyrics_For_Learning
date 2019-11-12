@@ -27,7 +27,7 @@ def get_song(text):
 
 @app_views.route('/songs/genre/<genre>', methods=['GET'], strict_slashes=False)
 def get_songs_by_genre(genre):
-    """Retrieves Song object from database and returns a dictionary"""
+    """Retrieves all Song objects from database with a specified genre"""
     songs_dict = storage.all(Song)
     songs_list = []
     for song in songs_dict.values():

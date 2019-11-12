@@ -24,7 +24,7 @@ class Storage:
             pool_pre_ping=True))
 
     def all(self, cls=None):
-        """returns a dictionary
+        """return a dictionary
         Return:
             returns a dictionary of objects
         """
@@ -69,7 +69,7 @@ class Storage:
         self.__session = scoped_session(session_factory)
 
     def close(self):
-        """closes the current session to force reload
+        """close the current session to force reload
         """
         print("CLOSE")
         self.__session.remove()

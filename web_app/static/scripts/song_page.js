@@ -1,4 +1,4 @@
-//Redirects user to page for specific song
+//Fetches all data for specific song and sets up navigation to other songs with same genre
 document.addEventListener("DOMContentLoaded", function(event) {
 let index = window.location.href.lastIndexOf('/')
 let id = window.location.href.substring(index + 1)
@@ -37,7 +37,7 @@ fetch(song_api_url)
     .catch(error => console.error(error))
       })
     .catch(error => console.error(error))
-//Fetchs and displays song details
+//Fetches associated words and modifies lyrics HTML for highlighting of selected words
 let song_word_api_url = 'http://0.0.0.0:5001/api/v1/songs/' + id + '/words'
 fetch(song_word_api_url)
 .then(response => response.json())
@@ -71,7 +71,12 @@ fetch(song_word_api_url)
   })
 .catch(error => console.error(error))
 
-//Adds event listeners so that information about each word can be fetched and displayed
+/**
+ * Sets up event listener to fetch word info and highlight words within lyrics
+ *
+ * @param {string} word
+ * @returns {undefined}
+ */
 function setupWordFetch(word) {
   let words_api_url = 'http://0.0.0.0:5001/api/v1/words_api/' + word.innerText
   word.addEventListener('click', function() {
@@ -116,6 +121,11 @@ function setupWordFetch(word) {
 	  })
       .catch(error => console.error(error))
 	})}
+/**
+ * Creates button group for menu of word entries
+ *
+ * @returns {HTML}
+ */
 function button_group_HTML()
 {
   return(
@@ -123,10 +133,23 @@ function button_group_HTML()
       </div>`
   )
 }
+/**
+ * Creates button for word entry in button group
+ *
+ * @param {number} index
+ * @returns {undefined}
+ */
 function button_HTML(index)
 {
   return(`<button type="button" class="btn btn-secondary" id=${index}>${index}</button>`)
 }
+/**
+ * Adds event listener so key info about each word can be displayed in tabs
+ *
+ * @param {dictionary} data
+ * @param {number} entry_id
+ * @returns {undefined}
+ */
 function setup_entry(data, entry_id)
 {
   document.getElementById(entry_id).addEventListener('click', function() {
@@ -146,12 +169,18 @@ function setup_entry(data, entry_id)
     document.getElementById("wordCard").classList.add("card")
     if (!document.getElementById("prompt")) {
       add_interpretation_prompt(data)
-      setup_post(data)
+      setup_post()
     }
     if (document.getElementById("displaySection").innerHTML == "")
 	displayInterpretations()
   })
 }
+/**
+ * Sets up display of tabs and associated panels for content
+ *
+ * @param {dictionary} tabDict
+ * @returns {undefined}
+ */
 function append_tabs(tabDict) {
   tabDictKeys  = Object.keys(tabDict)
   for (i = 0; i < tabDictKeys.length; i++) {
@@ -174,6 +203,12 @@ function append_tabs(tabDict) {
     document.getElementById("myTabContent").insertAdjacentHTML('beforeend', tabContent)
   }
 }
+/**
+ * Creates and inserts HTML for submitting interpretations
+ *
+ * @param {dictionary} data
+ * @returns {undefined}
+ */
 function add_interpretation_prompt(data) {
   prompt = `<br><label for="interpretation-text-area" id="prompt">After exploring a few entries, share what you think the artist means by <i>\"${data['word']}\"</i>...</label>`
   textArea = `<textarea class="form-control" form="interpretation-section" name="interpretation "id="interpretation-text-area" rows="3" ></textarea>`
@@ -182,10 +217,21 @@ function add_interpretation_prompt(data) {
   document.getElementById("interpretation-section").insertAdjacentHTML('beforeend', textArea)
   document.getElementById("interpretation-section").insertAdjacentHTML('beforeend', submitButton)
 }
-function setup_post(word) {
+/**
+ * Adds event listener for postinhg of interpretation to internal REST API
+ *
+ * @returns {undefined}
+ */
+function setup_post() {
   form = document.getElementById("interpretation-section")
   form.addEventListener("submit", postInterpretation)
 }
+/**
+ * Checks for profanity in interpretation, makes POST request to internal REST API, and displays confirmation dialog
+ *
+ * @param {event object} event
+ * @returns {undefined}
+ */
 function postInterpretation(event) {
   event.preventDefault()
   word = document.getElementById("selectedWord").getAttribute("text")
@@ -213,6 +259,11 @@ function postInterpretation(event) {
     })
     .catch(error => console.error(error))
       }
+/**
+ * Fetches and displays intepretations for word in specific song
+ *
+ * @returns {undefined}
+ */
 function displayInterpretations() {
   word = document.getElementById("selectedWord").getAttribute("text")
   word_id_url = "http://0.0.0.0:5001/api/v1/words/" + word
@@ -222,7 +273,7 @@ function displayInterpretations() {
       fetch("http://0.0.0.0:5001/api/v1/interpretations/" + data + '/' + id)
 	.then(response => response.json())
 	.then(data => {
-	  displaySection= setupDisplaySection(data)
+	  displaySection= setupDisplaySection()
 	  document.getElementById("displaySection").insertAdjacentHTML("beforeend", displaySection)
 	  contentDiv = document.getElementById("content-div")
 	  if (data.length > 0) {
@@ -236,7 +287,12 @@ function displayInterpretations() {
 	  }})
 	})
 	.catch(error => console.error(error))}
-function setupDisplaySection(interpretations) {
+/**
+ * Creates HTML for displaying interpretations
+ *
+ * @returns {HTML} displaySection
+ */
+function setupDisplaySection() {
   word = document.getElementById("selectedWord").getAttribute("text")
   return(
 `<div role="tablist" id="accordion-1">
@@ -251,6 +307,11 @@ function setupDisplaySection(interpretations) {
     </div>
 </div>`)
 }})
+/**
+ * Returns of dictionary of other songs within the same genre based on API response from internal RESTful API
+ *
+ * @returns {dictionary} suggestionDict
+ */
 function suggestions(data) {
   if (data.length > 0) {
     suggestionDict = {}
@@ -261,6 +322,11 @@ function suggestions(data) {
     return(suggestionDict)
   }
 }
+/**
+ * Adds event listener for redirection to other song pages within same genre
+ *
+ * @returns {undefined}
+ */
 function suggestionNav(id) {
    document.getElementById(id).addEventListener('click', function() {
      window.location.href="http://0.0.0.0:5000/songs/" + id

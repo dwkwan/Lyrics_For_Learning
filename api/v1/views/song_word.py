@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""defines view functions to handle requests for songs data"""
+"""defines view functions to handle requests for song_word data"""
 
 
 from flask import Flask, jsonify, abort, request

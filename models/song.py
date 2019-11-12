@@ -16,7 +16,16 @@ song_word = Table('song_word', metadata,
 
 
 class Song(BaseModel, Base):
-
+    """A class named Song
+    Attributes:
+    attr1(artist): artist associated with Song
+    attr2(title): title of Song
+    attr3(lyrics): lyrics of Song
+    attr4(genre): genre associated with Song
+    attr5(words): words associated with Song
+    attr6(interpretations): interpretations associated with Song
+    attr7(image_url): image_url associated with Song
+    """
     __tablename__ = 'songs'
     artist = Column(String(128), nullable=False)
     title = Column(String(128), nullable=False)

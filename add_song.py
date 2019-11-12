@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Test creation of song"""
+"""Script for testing the addition of songs to the site"""
 import models, requests
 from models.base_model import BaseModel
 from models.song import Song
