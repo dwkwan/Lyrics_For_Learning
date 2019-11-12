@@ -12,8 +12,8 @@ class Suggestion(BaseModel, Base):
     attr1(suggested_artist): artist the user suggested
     attr2(suggested_song): song the user suggested
     attr3(suggested_words): words associated with song that the user suggested
-    attr3(name): name of user that submitted suggestion
-    attr3(email): email of user that submitted suggestion
+    attr4(name): name of user that submitted suggestion
+    attr5(email): email of user that submitted suggestion
     """
      __tablename__ = 'suggestions'
      suggested_artist = Column(String(120), nullable=False)
