@@ -14,7 +14,7 @@ Lyrics For Learning is a web application aimed at helping students practice thei
     - [Linguistic Breakdown and Highlighting Of Selected Words](#linguistic-breakdown-and-highlighting-of-selected-words)
     - [Submit interpretations and view past submissions](#submit-interpretations-and-view-past-submissions)
     - [Suggest a Song Form](#suggest-a-song)
-- [API] (#API)
+- [API](#API)
 - [Future](#future)
 - [Author](#author)
 
@@ -67,47 +67,47 @@ I built an internal RESTful API for this web application so that data can be fle
 
 /api/v1/interpretations/<word_id>/<song_id>
 
-GET:Retrieves all Interpretation objects for a word from a song and returns a list containing
+* GET:Retrieves all Interpretation objects for a word from a song and returns a list containing
     all of them
     
-POST:Creates an interpretation for a word from a song
+* POST:Creates an interpretation for a word from a song
 
 /api/v1/interpretations/<interpretation_id>
 
-PUT:Updates an Interpretation object
+* PUT:Updates an Interpretation object
 
 /api/v1/songs/<song_id>/words
 
-GET: Retrieves all words from a song and returns a list containing
+* GET: Retrieves all words from a song and returns a list containing
     all of them
 
 /api/v1/songs
 
-GET: Retrieves all Song objects from database and returns a list containing
+* GET: Retrieves all Song objects from database and returns a list containing
     all of them
 
 /api/v1/songs/<text>
   
-GET: Retrieves Song object from database and returns a dictionary
+* GET: Retrieves Song object from database and returns a dictionary
 
 /api/v1/songs/genre/<genre>
   
-GET: Retrieves all Song objects from database with a specified genre
+* GET: Retrieves all Song objects from database with a specified genre
 
 /api/v1/suggestions/
 
-GET: Retrieves all Suggestion objects from database and returns a list containing
+* GET: Retrieves all Suggestion objects from database and returns a list containing
     all of them
     
-POST: Creates a Suggestion object
+* POST: Creates a Suggestion object
 
 /api/v1/words/<text>
   
-GET: Retrieves word_id based on word
+* GET: Retrieves word_id based on word
 
 /api/v1/words_api/<text>
 
-GET: Retrieves data for word from external API and returns response to client-side.
+* GET: Retrieves data for word from external API and returns response to client-side.
      By passing in API credentials from the command line when running the API and 
      using the internal API for the fetch, it prevents credentials from being exposed
      on the front-end.
