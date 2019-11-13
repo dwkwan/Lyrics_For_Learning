@@ -22,7 +22,7 @@
 
 Before I discovered my passion for software engineering, I was a middle school special educator in Brooklyn, NY. As a teacher, I found that music was such a powerful way to help my students learn language since they all had a natural connection to it and it provided a context for their learning. Drawing from my experiences in the classroom, I was inspired to create Lyrics For Learning.
 
-Initially, Lyrics for Learning was going to solely allow students to check out linguistic breakdowns for words within songs. However, after reflecting upon how I leveraged music in my own classroom and getting feedback from other teachers, I decided to also allow users to share their own interpretations of what words mean within songs. By exploring both the literal and figure meaning of words in songs they know, students can deepen their understanding of the English language in a context that is familiar to them.
+Initially, Lyrics for Learning was going to solely allow students to check out linguistic breakdowns for words within songs. However, after reflecting upon how I leveraged music in my own classroom and getting feedback from other teachers, I decided to also allow users to share their own interpretations of what words mean within songs. By exploring both the literal and figurative meaning of words in songs they know, students can deepen their understanding of the English language in a context that is familiar to them.
 
 ## Built With
 
@@ -36,7 +36,7 @@ Initially, Lyrics for Learning was going to solely allow students to check out l
 
 ## Getting Started
 
-To start using this web application, simply visit lyricsforlearning.net. To install it, simply clone this repository. You can start the app by running `web_app.app` and `api.v1.app` as Python modules in separate terminal windows. Please note, in order to run this app, you will need to install necessary dependencies as well as pass in the correct MySQLdb and Words API credentials respectively.
+To start using this web application, visit lyricsforlearning.net. To install it, simply clone this repository. You can start the app by running `web_app.app` and `api.v1.app` as Python modules in separate terminal windows. Please note, in order to run this app, you will need to install necessary dependencies as well as pass in the correct MySQLdb and Words API credentials respectively.
 
 ## Features
 
@@ -44,22 +44,32 @@ To start using this web application, simply visit lyricsforlearning.net. To inst
 
 Lyrics For Learning provides a selection of "clean" and vocabulary-rich songs to explore from a variety of different genres. The data for each song is fetched from the internal RESTful API and is used to fill each Bootstrap card. The song's id is used as the id for the "View" button within the song's card. This allows for the correct song details to be fetched when the user clicks on the button since the id becomes part of the URL for the song.
 
+# ![song-selection](https://i.imgur.com/8dcDUE9.png)
+
 ### **Words To Explore**
 
-When a user selects a song, they are re-directed to a song-specific page where the song's details are fetched from the internal RESTful API. This includes a list of words to explore that appear in the lyrics for the song. Event listeners are setup on each word so that the linguistic breakdown of it can be fetched from the external REST API and so that the words can be highlighted within the lyrics.
+When a user selects a song, they are re-directed to a song-specific page where the song's details are fetched from the internal RESTful API. This includes a list of words to explore that appear in the lyrics for the song. Event listeners are setup on each word so that the linguistic breakdown of it can be fetched from an external API and so that it can be highlighted within the lyrics.
+
+# ![words-to-explore](https://i.imgur.com/RfsXrUy.png)
 
 ### **Linguistic Breakdown and Highlighting of Words**
 
-When a user selects a specific word from a song, the linguistic breakdown is fetched from the external Words API. The JS script will then create a menu based the number of entries available for the word. When a user clicks on one of the entries, script will then see what sections are available for that entry (ex: "Definition", "Synonyms", "Examples"). The available sections and their content will populate a dynamic tabbed interface for the user to browse. In addition, the word is highlighted in the lyrics. This was made possible by first parsing the lyrics and adding span elements around words that appear in the "Words To Explore" list. The spans have aligned classes added to them that allow them to be targeted and thus highlighted when a word is selected.
 
+When a user selects a specific word from a song, the linguistic breakdown is fetched from the external Words API. The JS script will then create a menu based the number of entries available for the word. When a user clicks on one of the entries, the script will then see what sections are available for that entry (ex: "Definition", "Synonyms", "Examples"). The available sections and their content will populate a dynamic tabbed interface for the user to browse. In addition, the word is highlighted in the lyrics. This was made possible by first parsing the lyrics and adding span elements around words that appear in the "Pick a Word To Explore" list. The spans have aligned classes added to them that allow them to be targeted and thus highlighted when a word is selected.
+
+# ![linguistic-breakdown-and-highlighting-of-words](https://i.imgur.com/qI3nK1G.png)
 
 ### **Submit Interpretations and View Past Interpretations**
 
-After exploring the linguistic breakdown of a word, the user can share what they think the artist means by the word. When they press "Submit", their interpretation is sent as a `POST` request to the internal RESTful API. The `better-profanity` module is then used to check the interpretation for profanity and if so, the submission is not stored the database and a warning dialog is displayed to the user. If not, the submission is stored in the database and can be seen in the "Past Interpretations" section, which is an accordian-style display.
+After exploring the linguistic breakdown of a word, the user can share what they think the artist means by the word. When they press "Submit", their interpretation is sent as a `POST` request to the internal RESTful API. The `better-profanity` module is then used to check the interpretation for profanity and if so, the submission is not stored in the database and a warning dialog is displayed to the user. If there is no profanity, the submission is stored in the database and can be seen in the "Latest Interpretations" section, which is an accordian-style display.
+
+# ![submit-interpretations-and-view-past-interpretations](https://i.imgur.com/0kEDEPw.png)
 
 ### **Suggest a Song Form**
 
-If a user would like to suggest a song to be added to the collection of songs to learn from, they can visit the "Suggest a Song" page and fill out the form. The form will ask for all necessary attributes for creating a new Song object including the song's title, artist, and words to learn from. The user must also submit their name and email so they can be notified if the song is added to the collection and receive credit for their contribution.
+If a user would like to suggest a song to be added to the collection of songs to learn from, they can visit the "Suggest a Song" page and fill out the form. The form will ask for all necessary attributes for creating a new Song object including the song's artist, title, and words to learn from. The user must also submit their email and name so they can be notified if the song is added to the collection and receive credit for their contribution.
+
+# ![suggest-a-song-form](https://i.imgur.com/jspGhrb.png)
 
 ## API
 
@@ -67,14 +77,14 @@ I built an internal RESTful API for this web application so that data can be fle
 
 /api/v1/interpretations/<word_id>/<song_id>
 
-* GET:Retrieves all Interpretation objects for a word from a song and returns a list containing
+* GET: Retrieves all Interpretation objects for a word from a song and returns a list containing
     all of them
     
-* POST:Creates an interpretation for a word from a song
+* POST: Creates an interpretation for a word from a song
 
 /api/v1/interpretations/<interpretation_id>
 
-* PUT:Updates an Interpretation object
+* PUT: Updates an Interpretation object
 
 /api/v1/songs/<song_id>/words
 
@@ -114,7 +124,7 @@ I built an internal RESTful API for this web application so that data can be fle
      
 ## Future
 
-Beyond this initial MVP which was built in 2 weeks, I would like to continue to add many more features to Lyrics For Learning. In particular, I would like to setup an authentication system. With this, I would also like to enable users to have profiles so they can check out their past progress and further personalize the experience by suggesting songs and words to explore based on past use. In addition, I'd like to allow users to edit past submissions and upvote each other's interpretations as well. I am also considering adding a "Top User" board on the homepage as well.
+Beyond this initial MVP which was built in 2 weeks, I would like to continue to add many more features to Lyrics For Learning. In particular, I would like to setup an authentication system. With this, I would also like to enable users to have profiles so they can check out their past progress and further personalize the experience by suggesting songs and words to explore based on past use. In addition, I'd like to allow users to edit past submissions and upvote each other's interpretations as well. I am also considering adding a "Top User" board on the homepage too.
 
 If you have any feedback (ex: feature ideas) or would like to contribute to this project, please feel free to contact me.
 
