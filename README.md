@@ -1,6 +1,6 @@
 # ![Logo](https://i.imgur.com/U9YCwwT.png) 
 
-Lyrics For Learning is a web application aimed at helping students practice their English language skills through music. Upon visiting the site, you can select a popular song and explore the meaning of words within the lyrics. Specifically, you can check out a linguistic breakdown of each word and share what you think the word means within the context of the song.
+[Lyrics For Learning](http://lyricsforlearning.net/) is a web application aimed at helping students practice their English language skills through music. Upon visiting the site, you can select a popular song and explore the meaning of words within the lyrics. Specifically, you can check out a linguistic breakdown of each word and share what you think the word means within the context of the song.
 
 
 ## Table of content
