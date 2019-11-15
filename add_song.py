@@ -14,8 +14,7 @@ for song in storage.all(Song).values():
 if db_songs.get(input_song) is None:
     input_genre = input('Genre: ')
     image = input('image_url: ')
-    lyrics_dict = requests.get('https://api.lyrics.ovh/v1/{:}/{:}'.format(input_artist, input_song)).json()
-    lyrics = lyrics_dict.get('lyrics')
+    lyrics = input('lyrics: ')
     song = Song()
     song.artist = input_artist
     song.title = input_song
