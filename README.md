@@ -16,6 +16,7 @@
     - [Suggest a Song Form](#suggest-a-song)
 - [API](#API)
 - [Future](#future)
+- [Attributions](#attributions)
 - [Author](#author)
 
 ## Inspiration
@@ -44,26 +45,26 @@ To start using this web application, visit lyricsforlearning.net. To install it,
 
 Lyrics For Learning provides a selection of "clean" and vocabulary-rich songs to explore from a variety of different genres. The data for each song is fetched from the internal RESTful API and is used to fill each Bootstrap card. The song's id is used as the id for the "View" button within the song's card. This allows for the correct song details to be fetched when the user clicks on the button since the id becomes part of the URL for the song.
 
-# ![song-selection](https://i.imgur.com/8dcDUE9.png)
+# ![song-selection](https://i.imgur.com/h3m9fko.png)
 
 ### **Words To Explore**
 
 When a user selects a song, they are re-directed to a song-specific page where the song's details are fetched from the internal RESTful API. This includes a list of words to explore that appear in the lyrics for the song. Event listeners are setup on each word so that the linguistic breakdown of it can be fetched from an external API and so that it can be highlighted within the lyrics.
 
-# ![words-to-explore](https://i.imgur.com/RfsXrUy.png)
+# ![words-to-explore](https://i.imgur.com/rqWAp1R.png)
 
 ### **Linguistic Breakdown and Highlighting of Words**
 
 
 When a user selects a specific word from a song, the linguistic breakdown is fetched from the external Words API. The JS script will then create a menu based the number of entries available for the word. When a user clicks on one of the entries, the script will then see what sections are available for that entry (ex: "Definition", "Synonyms", "Examples"). The available sections and their content will populate a dynamic tabbed interface for the user to browse. In addition, the word is highlighted in the lyrics. This was made possible by first parsing the lyrics and adding span elements around words that appear in the "Pick a word to explore!" list. The spans have aligned classes added to them that allow them to be targeted and thus highlighted when a word is selected.
 
-# ![linguistic-breakdown-and-highlighting-of-words](https://i.imgur.com/qI3nK1G.png)
+# ![linguistic-breakdown-and-highlighting-of-words](https://i.imgur.com/7kdV7Ox.png)
 
 ### **Submit Interpretations and View Past Interpretations**
 
 After exploring the linguistic breakdown of a word, the user can share what they think the artist means by the word. When they press "Submit", their interpretation is sent as a `POST` request to the internal RESTful API. The `better-profanity` module is then used to check the interpretation for profanity and if so, the submission is not stored in the database and a warning dialog is displayed to the user. If there is no profanity, the submission is stored in the database and can be seen in the "Latest Interpretations" section, which is an accordian-style display.
 
-# ![submit-interpretations-and-view-past-interpretations](https://i.imgur.com/0kEDEPw.png)
+# ![submit-interpretations-and-view-past-interpretations](https://i.imgur.com/LylEZMG.png)
 
 ### **Suggest a Song Form**
 
@@ -127,6 +128,16 @@ I built an internal RESTful API for this web application so that data can be fle
 Beyond this initial MVP which was built in 2 weeks, I would like to continue to add many more features to Lyrics For Learning. In particular, I would like to setup an authentication system. With this, I would also like to enable users to have profiles so they can check out their past progress and further personalize the experience by suggesting songs and words to explore based on past use. In addition, I'd like to allow users to edit past submissions and upvote each other's interpretations as well. I am also considering adding a "Top Users" board on the homepage too.
 
 If you have any feedback (ex: feature ideas) or would like to contribute to this project, please feel free to contact me.
+
+## Attributions
+
+Shout-out to [Open Lyrics Database](https://github.com/Lyrics/lyrics) for the lyrics shown!
+
+Licenses for images from Wikimedia Commons:
+
+* [The xx at the Alcatraz.jpg](https://commons.wikimedia.org/wiki/File:The_xx_at_the_Alcatraz.jpg)
+* [Adele Live 2016 tour.jpeg](https://commons.wikimedia.org/wiki/File:Adele_Live_2016_tour.jpeg)
+* [Paul Simonon The Clash September 20 1979 Palladium NYC.jpg](https://commons.wikimedia.org/wiki/File:Paul_Simonon_The_Clash_September_20_1979_Palladium_NYC.jpg)
 
 ## Author
 ### **David Kwan**
