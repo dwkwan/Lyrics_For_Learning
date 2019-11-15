@@ -16,6 +16,7 @@
     - [Suggest a Song Form](#suggest-a-song)
 - [API](#API)
 - [Future](#future)
+- [Attributions](#attributions)
 - [Author](#author)
 
 ## Inspiration
@@ -127,6 +128,16 @@ I built an internal RESTful API for this web application so that data can be fle
 Beyond this initial MVP which was built in 2 weeks, I would like to continue to add many more features to Lyrics For Learning. In particular, I would like to setup an authentication system. With this, I would also like to enable users to have profiles so they can check out their past progress and further personalize the experience by suggesting songs and words to explore based on past use. In addition, I'd like to allow users to edit past submissions and upvote each other's interpretations as well. I am also considering adding a "Top Users" board on the homepage too.
 
 If you have any feedback (ex: feature ideas) or would like to contribute to this project, please feel free to contact me.
+
+## Attributions
+
+Shout-out to [Open Lyrics Database](https://github.com/Lyrics/lyrics) for the lyrics shown!
+
+Licenses for images from Wikimedia Commons:
+
+* [The xx at the Alcatraz.jpg](https://commons.wikimedia.org/wiki/File:The_xx_at_the_Alcatraz.jpg)
+* [Adele Live 2016 tour.jpeg](https://commons.wikimedia.org/wiki/File:Adele_Live_2016_tour.jpeg)
+* [Paul Simonon The Clash September 20 1979 Palladium NYC.jpg](https://commons.wikimedia.org/wiki/File:Paul_Simonon_The_Clash_September_20_1979_Palladium_NYC.jpg)
 
 ## Author
 ### **David Kwan**
