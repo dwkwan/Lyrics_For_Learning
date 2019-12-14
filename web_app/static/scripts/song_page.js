@@ -81,51 +81,49 @@ document.addEventListener('DOMContentLoaded', function (event) {
  * @param {string} word
  * @returns {undefined}
  */
-  function setupWordFetch (word) {
-    const wordsApiUrl = 'http://0.0.0.0:5001/api/v1/words_api/' + word.innerText;
-    word.addEventListener('click', function () {
-      fetch(wordsApiUrl)
-        .then(response => response.json())
-        .then(data => {
-	  console.log(data);
-	  selectedWord = document.getElementById('selectedWord');
-	  selectedWord.innerHTML = `<b>Selected word:</b> <i>${data.word}</i>`;
-	  selectedWord.setAttribute('text', data.word);
-	  document.getElementById('word-specific').style.display = 'block';
-	  entriesLabel = document.getElementById('entries_label');
-	  entriesLabel.innerHTML = '<b><u>Entries</u></b></p>';
-	  document.getElementById('wordBreakdown').insertAdjacentHTML('beforeend', buttonGroupHTML());
-	  document.getElementById('entries_button_group').innerHTML = '';
-	  document.getElementById('wordTabs').innerHTML = '';
-	  document.getElementById('myTabContent').innerHTML = '';
-	  document.getElementById('wordTabs').classList.remove('nav', 'nav-tabs');
-	  document.getElementById('wordCard').classList.remove('card');
-	  document.getElementById('interpretation-section').innerHTML = '';
-	  document.getElementById('interpretation-section').style.display = 'block';
-	  if (document.getElementById('confirmationDialog') != null) {
-	    element = document.getElementById('confirmationDialog');
-	    element.parentNode.removeChild(element);
-	  }
-	  document.getElementById('displaySection').innerHTML = '';
-	  highlightedWords = document.getElementsByClassName('highlighted');
-	  while (highlightedWords.length > 0) {
-	    highlightedWords[0].removeAttribute('style');
-	    highlightedWords[0].classList.remove('highlighted');
-	   }
-	  console.log('Word to highlight: ' + data.word);
-	  wordsToHighlight = document.getElementsByClassName(`${data.word}`);
-	  for (i = 0; i < wordsToHighlight.length; i++) {
-	    wordsToHighlight[i].setAttribute('style', 'background-color: #FFFF00');
-	    wordsToHighlight[i].className += ' highlighted';
-	  }
-	  for (i = 0; i < data.results.length; i++) {
-	    document.getElementById('entries_button_group').insertAdjacentHTML('beforeend', buttonHTML(i));
-	    setupEntry(data, i);
-	    }
-	  })
-        .catch(error => console.error(error));
-    });
-  }
+  async function setupWordFetch (word) {
+    try {
+      const wordsApiUrl = 'http://0.0.0.0:5001/api/v1/words_api/' + word.innerText;
+      word.addEventListener('click', async function () {
+	let wordsApiResponse = await fetch(wordsApiUrl)
+	let wordsApiData = await wordsApiResponse.json()
+	selectedWord = document.getElementById('selectedWord');
+	selectedWord.innerHTML = `<b>Selected word:</b> <i>${wordsApiData.word}</i>`;
+	selectedWord.setAttribute('text', wordsApiData.word);
+	document.getElementById('word-specific').style.display = 'block';
+	entriesLabel = document.getElementById('entries_label');
+	entriesLabel.innerHTML = '<b><u>Entries</u></b></p>';
+	document.getElementById('wordBreakdown').insertAdjacentHTML('beforeend', buttonGroupHTML());
+	document.getElementById('entries_button_group').innerHTML = '';
+	document.getElementById('wordTabs').innerHTML = '';
+	document.getElementById('myTabContent').innerHTML = '';
+	document.getElementById('wordTabs').classList.remove('nav', 'nav-tabs');
+	document.getElementById('wordCard').classList.remove('card');
+	document.getElementById('interpretation-section').innerHTML = '';
+	document.getElementById('interpretation-section').style.display = 'block';
+	if (document.getElementById('confirmationDialog') != null) {
+	  element = document.getElementById('confirmationDialog');
+	  element.parentNode.removeChild(element);
+	}
+	document.getElementById('displaySection').innerHTML = '';
+	highlightedWords = document.getElementsByClassName('highlighted');
+	while (highlightedWords.length > 0) {
+	  highlightedWords[0].removeAttribute('style');
+	  highlightedWords[0].classList.remove('highlighted');
+	}
+	wordsToHighlight = document.getElementsByClassName(`${wordsApiData.word}`);
+	for (i = 0; i < wordsToHighlight.length; i++) {
+	  wordsToHighlight[i].setAttribute('style', 'background-color: #FFFF00');
+	  wordsToHighlight[i].className += ' highlighted';
+	}
+	for (i = 0; i < wordsApiData.results.length; i++) {
+	  document.getElementById('entries_button_group').insertAdjacentHTML('beforeend', buttonHTML(i));
+	  setupEntry(wordsApiData, i);
+	}
+      })} catch(err) {
+	console.error(error);
+      }}
+
   /**
  * Creates button group for menu of word entries
  *
@@ -305,8 +303,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         </div>
     </div>
 </div>`);
-  }
-});
+}
 /**
  * Returns of dictionary of other songs within the same genre based on API response from internal RESTful API
  *
@@ -331,3 +328,4 @@ function suggestionNav (id) {
     window.location.href = 'http://0.0.0.0:5000/songs/' + id;
   });
 }
+});
