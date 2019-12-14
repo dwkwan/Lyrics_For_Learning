@@ -9,7 +9,8 @@ from models.song import Song
 app = Flask(__name__)
 
 
-@app_views.route('/songs/<song_id>/words', methods=['GET'], strict_slashes=False)
+@app_views.route('/songs/<song_id>/words', methods=['GET'],
+                 strict_slashes=False)
 def get_words_for_song(song_id):
     """Retrieves all words from a song and returns a list containing
     all of them"""

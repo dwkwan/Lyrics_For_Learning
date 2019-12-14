@@ -10,7 +10,9 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 import os
 
-classes = {"Song": Song, "Word": Word, "Interpretation": Interpretation, "Suggestion": Suggestion}
+classes = {"Song": Song, "Word": Word, "Interpretation": Interpretation,
+           "Suggestion": Suggestion}
+
 
 class Storage:
     """This class manages the MySQL database for Lyrics for Learning"""
@@ -30,7 +32,8 @@ class Storage:
         """
         obj_dict = {}
         if cls is None:
-            for obj in self.__session.query(Song, Word, Interpretation, Suggestion).all():
+            for obj in self.__session.query(Song, Word, Interpretation,
+                                            Suggestion).all():
                 key = "{}.{}".format(type(obj).__name__, obj.id)
                 obj_dict[key] = obj
         else:

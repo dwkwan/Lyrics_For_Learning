@@ -7,6 +7,7 @@ from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy import *
 
+
 class Interpretation(BaseModel, Base):
     """A class named Interpretation
     Attributes:

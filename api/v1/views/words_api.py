@@ -8,9 +8,11 @@ import requests
 import os
 app = Flask(__name__)
 
+
 @app_views.route('/words_api/<text>', methods=['GET'], strict_slashes=False)
 def get_word_api_data(text):
-    """Retrieves data for word from external API and returns response to client-side"""
+    """Retrieves data for word from external API and returns response to
+    client-side"""
     headers = {
               'x-rapidapi-host': os.getenv('WORDS_API_HOST'),
               'x-rapidapi-key': os.getenv('WORDS_API_KEY')

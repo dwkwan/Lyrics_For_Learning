@@ -19,6 +19,7 @@ def get_suggestions(word_id=None, song_id=None):
             suggestions_list.append(suggestion.to_dict())
     return jsonify(suggestions_list), 200
 
+
 @app_views.route('/suggestions/', methods=['POST'], strict_slashes=False)
 def post_suggestion():
     """Creates a Suggestion object"""

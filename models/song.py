@@ -10,9 +10,10 @@ from sqlalchemy import *
 metadata = Base.metadata
 
 song_word = Table('song_word', metadata,
-            Column('song_id', String(60), ForeignKey("songs.id"),
-            primary_key=True, nullable=False),
-            Column('word_id', String(60), ForeignKey("words.id"), primary_key=True, nullable=False))
+                  Column('song_id', String(60), ForeignKey("songs.id"),
+                         primary_key=True, nullable=False),
+                  Column('word_id', String(60), ForeignKey("words.id"),
+                         primary_key=True, nullable=False))
 
 
 class Song(BaseModel, Base):

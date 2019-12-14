@@ -19,11 +19,13 @@ def get_songs():
         songs_list.append(song.to_dict())
     return jsonify(songs_list), 200
 
+
 @app_views.route('/songs/<text>', methods=['GET'], strict_slashes=False)
 def get_song(text):
     """Retrieves Song object from database and returns a dictionary"""
     songs_dict = storage.all(Song)
     return jsonify(songs_dict.get("Song.{:}".format(text)).to_dict()), 200
+
 
 @app_views.route('/songs/genre/<genre>', methods=['GET'], strict_slashes=False)
 def get_songs_by_genre(genre):

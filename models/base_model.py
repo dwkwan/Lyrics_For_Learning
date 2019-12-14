@@ -9,6 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class BaseModel():
     """A class named BaseModel
     Attributes:
@@ -34,6 +35,7 @@ class BaseModel():
         """Returns string representation of BaseModel instance"""
         return "[{}] ({}) {}".format(self.__class__.__name__,
                                      self.id, self.__dict__)
+
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__"""
         newdict = self.__dict__.copy()

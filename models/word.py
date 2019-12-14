@@ -7,6 +7,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from sqlalchemy import *
 
+
 class Word(BaseModel, Base):
     """A class named Word
     Attributes:
