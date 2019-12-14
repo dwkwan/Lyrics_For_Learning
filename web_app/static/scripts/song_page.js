@@ -230,32 +230,32 @@ document.addEventListener('DOMContentLoaded', function (event) {
  * @param {event object} event
  * @returns {undefined}
  */
-  function postInterpretation (event) {
-    event.preventDefault();
-    word = document.getElementById('selectedWord').getAttribute('text');
-    wordIdUrl = 'http://0.0.0.0:5001/api/v1/words/' + word;
-    fetch(wordIdUrl)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        interpretation = document.getElementById('interpretation-text-area').value;
-        interpretationDict = { text: interpretation };
-        interpretationUrl = 'http://0.0.0.0:5001/api/v1/interpretations/' + data + '/' + id;
-        fetch(interpretationUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(interpretationDict) })
-          .then(response => response.json())
-          .then(data => {
-	  document.getElementById('interpretation-section').style.display = 'none';
-	  if ('error' in data && data.error == 'Profane') {
-	    confirmationDialog = `<br><p id = "confirmationDialog">Your submission for <i>${word}</i> contains profane content. It will not be posted.</p>`;
-	  } else {
-	    confirmationDialog = `<br><p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>!</p>`;
-	  }
-	  document.getElementById('word-specific-body').insertAdjacentHTML('beforeend', confirmationDialog);
-          })
-          .catch(error => console.error(error));
-      })
-      .catch(error => console.error(error));
-  }
+  async function postInterpretation (event) {
+    try {
+      event.preventDefault();
+      word = document.getElementById('selectedWord').getAttribute('text');
+      wordIdUrl = 'http://0.0.0.0:5001/api/v1/words/' + word;
+      let wordIdResponse = await fetch(wordIdUrl);
+      let wordIdData = await wordIdResponse.json();
+      console.log(wordIdData);
+      interpretation = document.getElementById('interpretation-text-area').value;
+      interpretationDict = { text: interpretation };
+      interpretationUrl = 'http://0.0.0.0:5001/api/v1/interpretations/' + wordIdData + '/' + id;
+      let interpretationUrlResponse = await fetch(
+	interpretationUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(interpretationDict) })
+      let interpretationData = interpretationUrlResponse.json()
+      document.getElementById('interpretation-section').style.display = 'none';
+      if ('error' in interpretationData && interpretationData.error == 'Profane') {
+	confirmationDialog = `<br><p id = "confirmationDialog">Your submission for <i>${word}</i> contains profane content. It will not be posted.</p>`;
+      } else {
+	confirmationDialog = `<br><p id = "confirmationDialog">Thanks for your submission for <i>${word}</i>!</p>`;
+      }
+      document.getElementById('word-specific-body').insertAdjacentHTML('beforeend', confirmationDialog);
+    }
+    catch(err) {
+      console.error(err);
+    }}
+
   /**
  * Fetches and displays intepretations for word in specific song
  *
