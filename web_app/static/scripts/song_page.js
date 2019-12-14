@@ -3,38 +3,37 @@ document.addEventListener('DOMContentLoaded', function (event) {
   const index = window.location.href.lastIndexOf('/');
   const id = window.location.href.substring(index + 1);
   const songApiUrl = 'http://0.0.0.0:5001/api/v1/songs/' + id;
-  fetch(songApiUrl)
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById('song-title').innerHTML = `${data.title}`;
-      document.getElementById('song-artist').innerHTML = `${data.artist}`;
-      document.getElementById('song-lyrics').innerHTML = `${data.lyrics}`;
-      document.getElementById('song-genre').innerHTML = `Genre: ${data.genre}`;
-      document.getElementById('song-genre').setAttribute('text', data.genre);
-      document.getElementById('song-image').setAttribute('src', data.image_url);
+  songDetails(songApiUrl);
+  async function songDetails(songApiUrl) {
+    try {
+      let songApiResponse = await fetch(songApiUrl)
+      let songData = await songApiResponse.json()
+      document.getElementById('song-title').innerHTML = `${songData.title}`;
+      document.getElementById('song-artist').innerHTML = `${songData.artist}`;
+      document.getElementById('song-lyrics').innerHTML = `${songData.lyrics}`;
+      document.getElementById('song-genre').innerHTML = `Genre: ${songData.genre}`;
+      document.getElementById('song-genre').setAttribute('text', songData.genre);
+      document.getElementById('song-image').setAttribute('src', songData.image_url);
       genre = document.getElementById('song-genre').getAttribute('text');
       const genreApiUrl = 'http://0.0.0.0:5001/api/v1/songs/genre/' + genre;
-      fetch(genreApiUrl)
-        .then(response => response.json())
-        .then(data => {
-          if (data.length > 1) {
-            document.getElementById('genre-suggestions').insertAdjacentHTML('beforeEnd', `<p>Other ${data[0].genre} songs to explore:</p><ul id="suggestion-list"></ul><a class="card-link" href="#"></a>`);
-            suggestionDict = suggestions(data);
-            for (const [key, value] of Object.entries(suggestionDict)) {
-              item = document.createElement('LI');
-              text = document.createTextNode(value);
-              item.appendChild(text);
-              item.setAttribute('id', key);
-              document.getElementById('suggestion-list').appendChild(item);
-              suggestionNav(key);
-            }
-          } else {
-            document.getElementById('genre-suggestions').insertAdjacentHTML('beforeEnd', `<p>Check back for more ${data[0].genre} songs!</p><a class="card-link" href="#"></a>`);
-          }
-        })
-        .catch(error => console.error(error));
-    })
-    .catch(error => console.error(error));
+      let genreApiResponse = await fetch(genreApiUrl)
+      genreData = await genreApiResponse.json()
+      if (genreData.length > 1) {
+        document.getElementById('genre-suggestions').insertAdjacentHTML('beforeEnd', `<p>Other ${genreData[0].genre} songs to explore:</p><ul id="suggestion-list"></ul><a class="card-link" href="#"></a>`);
+        suggestionDict = suggestions(genreData);
+        for (const [key, value] of Object.entries(suggestionDict)) {
+          item = document.createElement('LI');
+          text = document.createTextNode(value);
+          item.appendChild(text);
+          item.setAttribute('id', key);
+          document.getElementById('suggestion-list').appendChild(item);
+          suggestionNav(key);
+        }
+      } else {
+        document.getElementById('genre-suggestions').insertAdjacentHTML('beforeEnd', `<p>Check back for more ${genreData[0].genre} songs!</p><a class="card-link" href="#"></a>`);
+      }} catch(err){
+	console.error(err);
+    }}
   // Fetches associated words and modifies lyrics HTML for highlighting of selected words
   const songWordApiUrl = 'http://0.0.0.0:5001/api/v1/songs/' + id + '/words';
   fetch(songWordApiUrl)
